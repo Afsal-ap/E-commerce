@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css'>
+  <link rel="stylesheet" href="/assets/css/otp.css">
+</head>
+<body>
+  <section class="container-fluid d-block h-10">
+    <form id="form" action="/verifyOTP" method="post">
+        <div class="row justify-content-center h-100">
+            <div class="col-12 col-md-6 col-lg-4" style="min-width: 500px;">
+                <div class="card bg-white mb-5 mt-5 border-0" style="box-shadow: 0 12px 15px rgba(0, 0, 0, 0.02);">
+                    <div class="card-body p-5 text-center">
+                        <h4>Verify</h4>
+                        <p>Your code was sent to you via email</p>
+
+                        <% if (typeof message !== 'undefined') { %>
+                            <h1 class="error-message"><%= message %></h1>
+                        <% } %>
+                        <div class="otp-error" id="otpError"></div>
+                        <div class="otp-field mb-4">
+                            <input id="Otp" type="number" name="otp">
+                        </div>
+                        <button type="submit" class="btn btn-danger mb-3">
+                            Verify
+                        </button>
+                        <div id="otpTimer" class="mb-3"></div>
+
+                        <p class="resend text-muted mb-0">
+                            Didn't receive code? <button id="resendButton" onclick="resendOtp()">Request again</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<script>
+   
+    var countdownTime = 60; 
+
+function startCountdown() {
+    var timerElement = document.getElementById('otpTimer');
+    var resendButton = document.getElementById('resendButton');
+
+    function updateTimer() {
+        var minutes = Math.floor(countdownTime / 60);
+        var seconds = countdownTime % 60;
+
+        if (countdownTime > 0) {
+            // Display the countdown timer
+           
+            timerElement.innerHTML = 'Resend in ' + seconds + 's';
+        } else {
+            // If the countdown reaches 0, hide the timer and display the "Resend" button
+            timerElement.style.display = 'none';
+            resendButton.style.display = 'block';
+            clearInterval(timerInterval); 
+        }
+
+        countdownTime--;
+    }
+
+   
+    var timerInterval = setInterval(updateTimer, 1000);
+
+   
+    updateTimer();
+}
+
+
+startCountdown();
+
+
+   
+    function resendOtp() {
+
+      countdownTime = 60;
+            // Start the countdown again
+            startCountdown();
+           
+            document.getElementById('otpTimer').style.display = 'block';
+            document.getElementById('resendButton').style.display = 'none';
+        }
+    // Disable the "Resend" button to prevent multiple requests
+    document.getElementById('resendButton').disabled = true;
+     console.log("fdfdfd");
+    fetch('/resendOtp', { method: 'POST' })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.otp) {
+                
+                console.log(data.message);
+            } else {
+              
+                console.error(data.message);
+            }
+        })
+        .catch(error => console.error(error))
+        .finally(() => {
+           
+            document.getElementById('resendButton').disabled = false;
+        });
+
+
+</script>
+
+    
+</script>
+    <script src="/assets/js/otp-validation.js"></script>
+</body>
+</html>

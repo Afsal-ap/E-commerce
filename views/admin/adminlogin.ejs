@@ -1,0 +1,92 @@
+            
+            <!DOCTYPE html>
+            <html lang="en">
+                <head>
+                    <meta charset="utf-8" />
+                    <title>Nest Dashboard</title>
+                    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+                    <meta name="description" content="" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1" />
+                    <meta property="og:title" content="" />
+                    <meta property="og:type" content="" />
+                    <meta property="og:url" content="" />
+                    <meta property="og:image" content="" />
+                    <!-- Favicon -->
+                    <link rel="shortcut icon" type="image/x-icon" href="/assets copy/imgs/theme/favicon.svg" />
+                    <!-- Template CSS -->
+                    <link href="/assets copy/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+                </head>
+            
+           
+            <section class="content-main mt-80 mb-80">
+                <div class="card mx-auto card-login">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Sign in</h4>
+                        <form action="/admin" method="post" id="form">
+                            <div class="mb-3">
+                                <% if(typeof message !== 'undefined') { %>
+                                    <p style="color: red;"><%= message %></p> <%} %>
+                                <input class="form-control" placeholder="email" type="email" name="email" id="email" />
+                                <div id="errorEmail" class="admin-email" style="color: red;"></div>
+                            </div>
+                            <!-- form-group// -->
+                            <div class="mb-3">
+                                <input class="form-control" placeholder="Password" type="password" id="password" name="password" />
+                                <div id="errorPassword" class="admin-password" style="color: red;"></div>
+                            </div>
+                            <!-- form-group// -->
+                            <div class="mb-3">
+                                <a href="#" class="float-end font-sm text-muted">Forgot password?</a>
+                                <label class="form-check">
+                                    <input type="checkbox" class="form-check-input" checked="" />
+                                    <span class="form-check-label">Remember</span>
+                                </label>
+                            </div>
+                            <!-- form-group form-check .// -->
+                            <div class="mb-4">
+                               
+                                <button type="submit" class="btn btn-primary w-100" >Login</button>
+                            </div>
+                            <!-- form-group// -->
+                        </form>
+                      
+                       
+                    </div>
+                </div>
+            </section>
+
+            <script> 
+             const form = document.getElementById("form")
+             const emailInput = document.getElementById("email")
+             const passwordInput = document.getElementById("password")
+             let isValid = true;
+
+             form.addEventListener("submit",(e)=>{
+            e.preventDefault();
+            document.getElementById("errorEmail").innerText = "";
+            document.getElementById("errorPassword").innerText = "";
+            const email  = emailInput.value
+            if(email.trim() ===""){
+                document.getElementById("errorEmail").innerText = "Email is required"
+            isValid = false
+            }else if (!email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)){
+                document.getElementById("errorEmail").innerText = "provide a valid email";
+                isValid =false
+            }
+            const password = passwordInput.value
+            if(password.trim()===""){
+            document.getElementById("errorPassword").innerText = "password is required"
+            isValid = false
+            }
+            if(isValid){
+                form.submit()
+            }
+            console.log(isValid,'isvalid')
+
+    
+})
+            
+            </script>
+
+
+            <%- include('../layout/admin/footer.ejs') -%>
