@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Nest Dashboard</title>
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content="" />
+        <meta property="og:type" content="" />
+        <meta property="og:url" content="" />
+        <meta property="og:image" content="" />
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/x-icon" href="/assets copy/imgs/theme/favicon.svg" />
+        <!-- Template CSS -->
+        <link href="/assets copy/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
+    </head>
+
+
+<body>
+<div class="screen-overlay"></div>
+<aside class="navbar-aside" id="offcanvas_aside">
+<div class="aside-top">
+    <a href="index.html" class="brand-wrap">
+        <img src="/assets copy/imgs/theme/logo.svg" class="logo" alt="Nest Dashboard" />
+    </a>
+    <div>
+        <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
+    </div>
+</div>
+<nav>
+    <ul class="menu-aside">
+        <li class="menu-item">
+            <a class="menu-link" href="/admin/dashboard">
+                <i class="icon material-icons md-home"></i>
+                <span class="text">Dashboard</span>
+            </a>
+        </li>
+        <li class="menu-item ">
+            <a class="menu-link" href="/admin/users">
+                <i class="icon material-icons md-person"></i>
+                <span class="text">Users</span>
+            </a>
+         
+        </li>
+        <li class="menu-item">
+            <a class="menu-link" href="/admin/product">
+                <i class="icon material-icons md-shopping_bag"></i>
+                <span class="text">Products</span>
+            </a>
+           
+         
+        </li>
+        <li class="menu-item">
+            <a class="menu-link" href="/admin/category">
+                <i class="icon material-icons md-shopping_bag"></i>
+                <span class="text">Category</span>
+            </a>
+        </li>
+        <li>
+
+            <li class="menu-item ">
+                <a class="menu-link " href="/admin/orders">
+                    <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Orders</span>
+                </a>
+        </li>
+          
+        <li class="menu-item">
+            <a class="menu-link " href="/admin/coupon">
+                <i class="icon material-icons md-shopping_bag"></i>
+                <span class="text">Coupon</span>
+            </a>
+    </li>
+    <li class="menu-item">
+        <a class="menu-link" href="/admin/offer">
+            <i class="icon material-icons md-shopping_bag"></i>
+            <span class="text">Offer</span>
+        </a>
+    </li>
+    <li class="menu-item active">
+        <a class="menu-link" href="/admin/Sales">
+            <i class="icon material-icons md-shopping_bag"></i>
+            <span class="text">Sales</span>
+        </a>
+    </li>
+    </ul>
+    <br />
+    <br />
+</nav>
+</aside>
+<main class="main-wrap">
+<header class="main-header navbar">
+    <div class="col-search">
+        <form class="searchform">
+            <div class="input-group">
+                <input list="search_terms" type="text" class="form-control" placeholder="Search term" />
+                <button class="btn btn-light bg" type="button"><i class="material-icons md-search"></i></button>
+            </div>
+            <datalist id="search_terms">
+                <option value="Products"></option>
+                <option value="New orders"></option>
+                <option value="Apple iphone"></option>
+                <option value="Ahmed Hassan"></option>
+            </datalist>
+        </form>
+    </div>
+    <div class="col-nav">
+        <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"><i class="material-icons md-apps"></i></button>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link btn-icon" href="#">
+                    <i class="material-icons md-notifications animation-shake"></i>
+                    <span class="badge rounded-pill">3</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+            </li>
+            <li class="dropdown nav-item">
+                <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                    <a class="dropdown-item text-brand" href="#"><img src="/assets copy/imgs/theme/flag-us.png" alt="English" />English</a>
+                    <a class="dropdown-item" href="#"><img src="/assets copy/imgs/theme/flag-fr.png" alt="Français" />Français</a>
+                    <a class="dropdown-item" href="#"><img src="/assets copy/imgs/theme/flag-jp.png" alt="Français" />日本語</a>
+                    <a class="dropdown-item" href="#"><img src="/assets copy/imgs/theme/flag-cn.png" alt="Français" />中国人</a>
+                </div>
+            </li>
+            <li class="dropdown nav-item">
+                <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="/assets/imgs/people/avatar-2.png" alt="User" /></a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                    <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                    <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+                    <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                    <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                    <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</header>
+
+<div class="card mb-4">
+    <header class="card-header">
+        <h4 class="card-title">Latest orders</h4>
+        <div class="row align-items-center">
+            <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
+                <div class="custom_select">
+                    <select class="form-select select-nice"  id="reportTypeSelect" onchange="getSalesReport(value)">
+                        <option value="Default" selected>All</option>
+                        <option value="Daily ">Daily</option>
+                        <option value="Weekly">Weekly</option>
+                        <option value="Monthly">Monthly</option>
+                        <option value="Yearly">Yearly</option>
+                       
+                    </select>
+                </div>
+                 
+            </div>
+         <div class="col-md-2  mb-md-0 mb-3" > 
+
+         <a href="/admin/excelReport" download="sales_report.xlsx"> <button class="btn btn-primary btn-sm">EXCEL</button></a>
+            </div>
+            <div class="col-md-3 col-12  mb-md-0 mb-3" >    
+             <a href="/admin/pdf" download="sales_report.pdf"> <button class="btn btn-primary btn-sm"> PDF</button></a>
+            </div>
+                <div class="col-md-2  mb-md-0 mb-3">
+                    <label for="startDate">From:</label>
+                    <input type="date" id="startDate" value="2021-05-02" class="form-control"/>
+                    
+                    <label for="endDate">To:</label>
+                    <input type="date" id="endDate" value="2021-05-02" class="form-control"/>
+                    
+                    <button type="button" class="btn btn-primary" style="height: 4px; width: 4px;" onclick="applyDateRange()">Apply</button>
+                </div>
+                
+            
+            
+                
+                
+            
+
+            <!-- <div class="col-md-2 col-6">
+                <div class="custom_select">
+                    <select class="form-select select-nice">
+                        <option selected>Status</option>
+                        <option>All</option>
+                        <option>Paid</option>
+                        <option>Chargeback</option>
+                        <option>Refund</option>
+                    </select>
+                </div>
+            </div> -->
+        </div>
+    </header>
+    <div class="card-body">
+        <div class="table-responsive">
+            <div class="table-responsive">
+                <table class="table align-middle table-nowrap mb-0">
+                    <thead class="table-light">
+                        <tr>
+                           
+                            <th class="align-middle" scope="col">NO</th>
+                            <th class="align-middle" scope="col">Billing Name</th>
+                          
+                            <th class="align-middle" scope="col">Total</th>
+                            <th class="align-middle" scope="col">Payment Status</th>
+                            <th class="align-middle" scope="col">Payment Method</th>
+                            <th class="align-middle" scope="col">discount</th>
+                            <th class="align-middle" scope="col">coupon amount</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (salesReport && salesReport.orders.length > 0) { %>
+                            <% const salesPerPage = 4; %>                     
+                            <% const startIndex = (currentPage - 1) * salesPerPage + 1; %>
+                            <% salesReport.orders.forEach(function(order, index) { %>
+                                <tr>
+                                    <td><%= startIndex +  index %></td>
+                                    <td><%= order.delivery_address.name %></td>
+                                    
+                                    <td><%= order.subtotal %></td>
+                                    <td>
+                                        <span class="badge badge-pill badge-soft-success"><%= order.orderStatus %></span>
+                                    </td>
+                                    <td><i class="material-icons md-payment font-xxl text-muted mr-5"></i><%= order.payment %></td>
+                                    <td><%= order.discountAmount || 0 %></td> <!-- Display discount amount -->
+                                    <td><%= order.couponAmount || 0 %></td> <!-- Display coupon amount -->
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <h1>No orders</h1>
+                        <% } %>
+
+                    
+                                 </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- table-responsive end// -->
+
+        <div class="pagination-area mt-15 mb-50">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-start">
+                    <% for (let page = 1; page <= totalPages; page++) { %>
+                        <% if (page === currentPage) { %>
+                            <li class="page-item active"><a class="page-link" href="#"><%= page %></a></li>
+                        <% } else { %>
+                            <li class="page-item"><a class="page-link" href="/admin/Sales?page=<%= page %>"><%= page %></a></li>
+                        <% } %>
+                    <% } %>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+<script>
+   function getSalesReport(selectedValue) {
+    location.href = `/admin/Sales?reportType=${selectedValue}`
+   }
+</script>
+
+
+<script>
+    function applyDateRange() {
+    const dateStart = document.getElementById('startDate').value;
+    const dateEnd = document.getElementById('endDate').value;
+      console.log(dateEnd );
+    location.href = `/admin/Sales?startDate=${ dateStart}&endDate=${dateEnd}`;
+    }
+</script>
+
+<script>
+    // Get the current date in the format YYYY-MM-DD
+    const currentDate = new Date().toISOString().slice(0, 10);
+
+    // Set the default value of the date inputs to the current date
+    document.getElementById('startDate').value = currentDate;
+    document.getElementById('endDate').value = currentDate;
+</script>
+
+<%- include('../layout/admin/footer.ejs') -%>
+

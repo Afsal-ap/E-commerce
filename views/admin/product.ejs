@@ -16,6 +16,8 @@
                     <!-- Template CSS -->
                     <link href="/assets copy/css/main.css?v=1.1" rel="stylesheet" type="text/css" />
                     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+                    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
                 </head>
             
 
@@ -68,6 +70,31 @@
                             <i class="icon material-icons md-shopping_cart"></i>
                             <span class="text">Category</span>
                         </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/orders">
+                            <i class="icon material-icons md-shopping_bag"></i>
+                            <span class="text">orders</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/coupon">
+                            <i class="icon material-icons md-shopping_bag"></i>
+                            <span class="text">Coupon</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/offer">
+                            <i class="icon material-icons md-shopping_bag"></i>
+                            <span class="text">Offer</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/Sales">
+                            <i class="icon material-icons md-shopping_bag"></i>
+                            <span class="text">Sales</span>
+                        </a>
+                    </li>
                       
                 </ul>
                 <br />
@@ -140,13 +167,14 @@
                         <a href="/admin/addProducts" class="btn btn-primary btn-sm rounded">Create new</a>
                     </div>
                 </div>
-                
+                   
+               
                     <header class="card-header">
                         <div class="row align-items-center">
                     
                             <div class="col-md-12">
                                 <div class="table-responsive">  
-                                    <% if (product.length>0) { %> 
+                                    <% if (products.length>0) { %> 
                                     <table class="table table-hover"> 
                                 <thead>
                                     <tr>
@@ -155,20 +183,77 @@
                                        <th>Name</th>
                                        <th>Quantity</th>
                                        <th>Price</th>
+                                       <th>Offer</th>
                                        <th>Category</th>
                                        <th>Status</th>
                                        <th>Action</th>
                                     </tr>
                                  </thead> 
                                  <tbody>
-                                   <% product.forEach((product, index)=> { %>
+                                    <% const productPerPage = 5; %> 
+                                   <% products.forEach((product, index)=> { %>
+                                    <% const startIndex = (currentPage - 1) * productPerPage + 1; %>
+
                                     <tr>
-                                        <td><%= index + 1 %></td>
+                                        <td><%= startIndex + index  %></td>
                                         <td><img src="/multerImages/<%=product.images.image1 %>" style="width:50px;" alt=""></style></td>
                                         <td><%= product.name %></td>
                                         <td><%= product.quantity %></td>
-                                        <td><%= product.price %></td>
-                                        <td><%= product.categoryId.name %></td>
+                                        <td> 
+                                         <% if(!product.offer) { %> 
+                                         <%= product.price %>
+                                         <%}else { %>
+                                            <del>₹ <%=product.price %><br></del>₹
+                                            <%= product.discountedPrice %>
+                                            <% }%>
+                                            
+                                        </td>
+                                        <td>
+                                         <% if (product.offer) { %>
+                                            <br>
+                                                <button type="button" class="btn btn-danger remove-offer-button btn-sm" onclick="removeOffer('<%= product._id %>')">Remove</button>
+                                                <br>
+                                                <p class="badge rounded-pill alert-success"><%= product.offer.discountAmount %>% offer</p>
+                                            <% }else{  %>
+                                                <button type="button" class="btn btn-outline-warning btn-sm" data-toggle="modal" data-target="#modalConfirmDelete<%= product._id %>">Apply</button><br>
+                                                <% } %>
+                                        </td>
+
+                                        <div class="modal fade" id="modalConfirmDelete<%= product._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+                                                <!--Content-->
+                                                <div class="modal-content text-center">
+                                                    <!--Header-->
+                                                    <div class="modal-header d-flex justify-content-center">
+                                                        <p class="heading">Offer Details</p>
+                                                    </div>
+                                        
+                                                    <!--Body-->
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <% for(let i = 0; i < offers.length; i++){ %>
+                                                                <div class="col-sm-6 mb-3">
+                                                                    <div class="offer-item p-3 border">
+                                                                        <p><strong>Name:</strong> <%= offers[i].name %></p>
+                                                                        <p><strong>Discount:</strong> <%= offers[i].discountAmount %>%</p>
+                                                                        <a href="#" class="btn btn-danger apply-offer-button btn-sm" data-product-id="<%= product._id %>" data-offer-id="<%= offers[i]._id %>">Apply</a>
+                                                                    </div>
+                                                                </div>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>         
+                                                </div>
+                                                <!--/.Content-->
+                                            </div>
+                                        </div><!--Modal: modalConfirmDelete-->
+
+                                        <td><%= product.categoryId.name %> <br>
+                                         <%if(product.categoryId.offer){ %> 
+                                         <p class="badge rounded-pill alert-success">
+                                            <%= product.categoryId.offer.discountAmount %>% category offer</p>
+
+                                                <%   } %>
+                                        </td>
                                         <td>  
                                             <% if(product.is_blocked) { %>
                                              <button class="badge bg-danger" style="border : none;"
@@ -184,17 +269,43 @@
                                         
                                     </tr>
                                     <% }) %>                                    
-                                 </tbody>
-                                </table>
-                            </div>
-                        </div>
-                            
-                        </div>
+                                </tbody>
+                            </table>
+                        
+                    </div>
+                    
+                </div>
+                        
+  <!--Modal: modalConfirmDelete-->
+  
+
                         <%  }else{ %>
                             <h1>no products available</h1>
                             <%}%>
 
+                           
+                            <!-- Button trigger modal-->
+
+  
                     </header>
+
+                    <div class="pagination-area mt-15 mb-50">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-start">
+                                <% for (let page = 1; page <= totalPages; page++) { %>
+                                    <% if (page === currentPage) { %>
+                                        <li class="page-item active"><a class="page-link" href="#"><%= page %></a></li>
+                                    <% } else { %>
+                                        <li class="page-item"><a class="page-link" href="/admin/product?page=<%= page %>"><%= page %></a></li>
+                                    <% } %>
+                                <% } %>
+                            </ul>
+                        </nav>
+                    </div>
+                
+                    
+                        </div>
+                    </div>
                    
             <footer class="main-footer font-xs">
                 <div class="row pb-30 pt-15">
@@ -210,7 +321,11 @@
                 </div>
             </footer>
         </main>
-        <script src="assets copy/js/vendors/jquery-3.6.0.min.js"></script>
+
+        <script src="path/to/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
         <script src="assets copy/js/vendors/bootstrap.bundle.min.js"></script>
         <script src="assets copy/js/vendors/select2.min.js"></script>
         <script src="assets copy/js/vendors/perfect-scrollbar.js"></script>
@@ -255,12 +370,10 @@ function confirmUnlistProduct(userId) {
         });
     }
 
-
-
-                  
+       
                            function unlistProduct(id) {
-                                    console.log("yy");
-                                  // Use AJAX to send a POST request to the server to toggle block status
+                                    
+                                  
                                   fetch(`/admin/unlistProduct/${id}`, { method: 'POST' })
                                     .then(response => response.json())
                                     .then(data => {
@@ -276,7 +389,7 @@ function confirmUnlistProduct(userId) {
 
 
                                 function listProduct(id) {
-                                    console.log("yy");
+                                    
                                   
                                   fetch(`/admin/listProduct/${id}`, { method: 'POST' })
                                     .then(response => response.json())
@@ -290,4 +403,77 @@ function confirmUnlistProduct(userId) {
                                     })
                                     .catch(error => console.error(error));
                                 }
+</script>
+
+<script>
+    
+    document.addEventListener('click', async function(event) {
+    if (event.target.classList.contains('apply-offer-button')) {
+        event.preventDefault();
+
+        const offerId = event.target.getAttribute('data-offer-id');
+        const productId = event.target.getAttribute('data-product-id');
+        console.log('id:', offerId);
+        console.log('id pro:', productId);
+
+        try {
+            const response = await fetch('/admin/applyOffer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ offerId: offerId, productId: productId })
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            if (data.success) {
+                Swal.fire({
+                    title: "Offer Applied Successfully",
+                    icon: "success",
+                    confirmButtonText: "OK",
+                    
+                });
+                location.reload()
+            } else {
+                Swal.fire({
+                    title: "No Offer Available",
+                    icon: "error",
+                    confirmButtonText: "OK",
+                })
+            }
+        } catch (error) {
+            console.error('Fetch Error:', error);
+        }
+    }
+});
+
+</script>
+<script>
+    function removeOffer(productId) {
+        console.log(productId,"kityu");
+        if (confirm('Are you sure you want to remove the offer?')) {
+            fetch('/admin/removeOffer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productId: productId })
+            })
+            .then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    throw new Error('Failed to remove offer');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to remove offer. Please try again.');
+            });
+        }
+    }
 </script>

@@ -9,7 +9,7 @@
 </head>
 <body>
   <section class="container-fluid d-block h-10">
-    <form id="form" action="/verifyOTP" method="post">
+    <form id="form" action="/verifyOtp" method="post">
         <div class="row justify-content-center h-100">
             <div class="col-12 col-md-6 col-lg-4" style="min-width: 500px;">
                 <div class="card bg-white mb-5 mt-5 border-0" style="box-shadow: 0 12px 15px rgba(0, 0, 0, 0.02);">
@@ -18,13 +18,13 @@
                         <p>Your code was sent to you via email</p>
 
                         <% if (typeof message !== 'undefined') { %>
-                            <h1 class="error-message"><%= message %></h1>
+                            <h1 id="error-message"><%= message %></h1>
                         <% } %>
                         <div class="otp-error" id="otpError"></div>
                         <div class="otp-field mb-4">
                             <input id="Otp" type="number" name="otp">
                         </div>
-                        <button type="submit" class="btn btn-danger mb-3">
+                        <button type="button" class="btn btn-danger mb-3" onclick="otpVerity()">
                             Verify
                         </button>
                         <div id="otpTimer" class="mb-3"></div>
@@ -56,7 +56,6 @@ function startCountdown() {
            
             timerElement.innerHTML = 'Resend in ' + seconds + 's';
         } else {
-            // If the countdown reaches 0, hide the timer and display the "Resend" button
             timerElement.style.display = 'none';
             resendButton.style.display = 'block';
             clearInterval(timerInterval); 
@@ -80,13 +79,11 @@ startCountdown();
     function resendOtp() {
 
       countdownTime = 60;
-            // Start the countdown again
             startCountdown();
            
             document.getElementById('otpTimer').style.display = 'block';
             document.getElementById('resendButton').style.display = 'none';
         }
-    // Disable the "Resend" button to prevent multiple requests
     document.getElementById('resendButton').disabled = true;
      console.log("fdfdfd");
     fetch('/resendOtp', { method: 'POST' })
@@ -113,9 +110,37 @@ startCountdown();
 
 
 </script>
-
+ 
+ <script>
+  function  otpVerity(){
+   
+    var otpValue = document.getElementById('Otp').value;
+    console.log(otpValue,"otppp");
+    fetch('/verifyOtp', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            otpValue: otpValue,
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+    if (data.otp === false || data.otp === 'expired' || data.otp === 'invalid') {
+        document.getElementById('otpError').innerHTML = data.message;
+    } else if (data.otp === true) {
+        document.getElementById('otpError').innerHTML = 'OTP verified successfully!';
+        location.href = '/';
+    }
+})
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+ </script>
     
-</script>
+
     <script src="/assets/js/otp-validation.js"></script>
 </body>
 </html>

@@ -1,19 +1,33 @@
 
 const categoryModel = require('../models/categorymodel')
-const productmodel = require('../models/productmodel')
-const products = require('../models/productmodel')
-
+const Product = require('../models/productmodel')
+const offerModel   = require('../models/offerModel')
 
 // load product
 
 const loadProduct = async (req,res)=>{
     try{ 
-       
-        const ali = await products.find().populate('categoryId')
-       
-    
-        res.render('product',{product:ali})
-    } catch(error){
+      const page = parseInt(req.query.page) || 1;
+            const pageSize = 5; 
+            const totalProducts = await Product.countDocuments();
+            const totalPages = Math.ceil(totalProducts / pageSize);
+            const  categories = await categoryModel.find({}).populate('offer')
+            const products = await Product.find().populate( 'categoryId'
+           ).populate('offer')
+           .skip((page - 1) * pageSize)
+           .limit(pageSize);
+        const offers  = await offerModel.find({})
+        for (let i = 0; i < products.length; i++) {
+          const product = products[i];
+        if(product.offer){   
+            const discountedPrice = product.price * ( 1 - product.offer.discountAmount / 100)
+            product.discountedPrice = parseInt(discountedPrice)
+            await product.save()  
+        }
+      }
+
+        res.render('product',{products,offers, totalPages,currentPage:page , categories})
+       } catch(error){
         console.error(error);
     }
     }
@@ -49,7 +63,7 @@ const addProductPost = async (req,res)=>{
 
         
 
-        const product = new products({
+        const product = new Product({
             name : details.name,
             quantity : details.quantity,
             price : details.price,
@@ -78,17 +92,14 @@ const addProductPost = async (req,res)=>{
          console.log("hello");
             const { id } = req.params;
         
-            // Find the user by ID
-            const product = await products.findOne({_id:id});
+            const product = await Product.findOne({_id:id});
             if (!product) {
               return res.status(404).json({ error: ' not found' });
             }
         
-            // Toggle the block status
             product.is_blocked = !product.is_blocked;
             await product.save();
         
-            // Optionally, you can handle any additional logic here
         
             res.json({ listProduct: true });   
           } catch (error) {
@@ -103,13 +114,13 @@ const unlistProduct = async (req, res) => {
          console.log("hhi");
       const { id } = req.params;
   
-      // Find the user by ID
-      const product = await products.findOne({_id:id});
+      
+      const product = await Product.findOne({_id:id});
       if (!product) {
         return res.status(404).json({ error: ' not found' });
       }
   
-      // Toggle the block status
+     
        product.is_blocked = false;
       await product.save();
   
@@ -128,14 +139,14 @@ const unlistProduct = async (req, res) => {
 
         try{    
             const id = req.query.id
-            const targetProduct  = await products.findOne({_id:id}).populate('categoryId')
+            const targetProduct  = await Product.findOne({_id:id}).populate('categoryId')
             const categories  = await categoryModel.find({is_blocked :false})
             res.render('editProduct',{ data:targetProduct , data1 : categories })
         }catch(error){
             console.log(error);
     } 
     }
-
+     
   // edit product post 
 
   const editProductPost = async(req,res) =>{
@@ -147,7 +158,7 @@ const unlistProduct = async (req, res) => {
         const files = req.files
         const categoryId = productDetails.categoryId;
 
-        const targetProduct = await products.findOne({_id:id})
+        const targetProduct = await Product.findOne({_id:id})
 
         const img = [
             files?.image1 ? (files.image1[0]?.filename || targetProduct.images.image1) : targetProduct.images.image1,
@@ -170,15 +181,14 @@ const unlistProduct = async (req, res) => {
             }
 
         }
-        const result = await products.findOneAndUpdate({_id:id}, product,{new:true});
+        const result = await Product.findOneAndUpdate({_id:id}, product,{new:true});
         res.redirect('/admin/product')
      } catch(error){
         console.log(error);
      }
   }
 
-
-
+ 
 
 module.exports = {
 

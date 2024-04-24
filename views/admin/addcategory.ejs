@@ -119,6 +119,12 @@
     </div>
 </header>
 <div class="card">
+    <% if (typeof message !=='undefined' ) { %>
+        <div class="alert alert-danger alert-dismissible fade show" id="errorAlert">
+            <i class="bi-exclamation-octagon-fill"></i>
+            <strong class="mx-auto"><%- message %></strong>
+        </div>
+        <% } %>
    <div class="textarea"> <h2>Add Category</h2></div>
     <div class="card-body">
         <div class="row">
@@ -150,15 +156,14 @@
 <script>                            
 function validateCategory() {
     console.log("workinggg");
-    // Reset previous error messages
+   
     $('#nameError').text('');
     $('#descriptionError').text('');
 
-    // Get input values"categoryDescription
     var name = $('#categoryName').val().trim();
     var description = $('#categoryDescription').val().trim();
 
-    // Validation checks
+    
     if (name === '' && description ==='') {
         $('#nameError').text('Name cannot be empty');
         $('#descriptionError').text('Description cannot be empty');
@@ -170,7 +175,6 @@ function validateCategory() {
         return;
     }
      console.log("yessss");
-    // If all validations pass, submit the form
     $('#form').submit();
 }
 </script>

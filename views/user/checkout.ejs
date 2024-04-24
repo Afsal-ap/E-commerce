@@ -1,0 +1,562 @@
+
+<%- include('../layout/user/header.ejs') -%>
+
+
+<main class="main">
+    <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        <div class="container">
+            <h1 class="page-title">Checkout<span>Shop</span></h1>
+        </div><!-- End .container -->
+    </div><!-- End .page-header -->
+    <nav aria-label="breadcrumb" class="breadcrumb-nav">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+            </ol>
+        </div><!-- End .container -->
+    </nav>
+
+    <div class="page-content">
+        <div class="checkout">
+            <div class="container">
+                <div class="checkout-discount">
+                    <form action="#">
+                        
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalConfirmDelete">Show coupons
+                        </button>
+                    </form>
+
+                </div><!-- End .checkout-discount -->
+   
+
+
+<!--   Edit address modal -->
+
+<div class="modal" id="myCheckoutEditAddressModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <div class="modal-body m-5">
+          <form action="/editAddress" method="post" id="editAddressForm">
+          
+            <div class="form-row mb-3">
+              <div class="form-group col-md-6">
+                <label for="name">Name:</label>
+                <input type="hidden"  name="id" id="editCheckAddressId" >
+                <input type="text" class="form-control"  name="adName" id="editCheckAddressName" required>
+                
+                <span id="editnameError" style="color: #ff0000;"></span>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="address">Address:</label>
+                <input type="text" class="form-control" id="editCheckAddressAddress" name="address" required>
+                <span  id="addressError" style="color: red;"></span>
+              </div>
+            </div>
+  
+            <div class="form-row mb-3">
+              <div class="form-group col-md-6">
+                <label for="landmark">Landmark:</label>
+                <input type="text" class="form-control" name="landmark" id="editCheckAddressLandmark" required>
+                <span id="landmarkError" style="color: red;"></span>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="state">State:</label>
+                <input type="text" class="form-control" name="city" id="editCheckAddressCity" required>
+                <span id="cityError" style="color: red;"></span>
+              </div>
+            </div>
+  
+            <div class="form-row mb-3">
+              <div class="form-group col-md-6">
+                <label for="city">City:</label>
+                <input type="text" class="form-control"  name="state" id="editCheckAddressState" required>
+                <span id="stateError" style="color: red;"></span>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="pincode">Pincode:</label>
+                <input type="text" class="form-control"  name="pincode" id="editCheckAddressPincode" required>
+                <span  id="pincodeError" style="color: red;"></span>
+              </div>
+            </div>
+           
+  
+            <div class="form-row mb-3">
+              <div class="form-group col-md-6">
+                <label for="phone">Phone:</label>
+                <input type="text" class="form-control" name="phone" id="editCheckAddressPhone" required>
+                <span id="phoneError" style="color: red;"></span>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" name="adEmail" id="editCheckAddressEmail" required>
+                <span  id="emailError" style="color: red;"></span>
+              </div>
+            </div>
+          <button type="submit" class="btn text-center btn-primary" id="editAddressSubmitBtn" onclick="validateEditAddress()">Submit</button>
+        </form>
+       </div>
+     </div>
+    </div>
+    </div>
+
+
+
+<form action="/checkout" method="post" id="checkoutForm">
+<div class="row">
+    <% if (address) { %>
+        <div class="col-lg-8">
+            <h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
+            
+            <div class="row">
+                <% address.address.forEach(address => { %>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Address Details</h5>
+                               <input type="radio" name="selectedAddress" value="<%= address._id %>" checked>
+                         
+                                     <p class="card-text">
+                                    <strong>Name:</strong> <%= address.name %><br>
+                                    <strong>Address:</strong> <%= address.address %><br>
+                                    <strong>Landmark:</strong> <%= address.landmark %><br>
+                                    <strong>City:</strong> <%= address.city %><br>
+                                    <strong>State:</strong> <%= address.state %><br>
+                                    <strong>Pincode:</strong> <%= address.pincode %><br>
+                                    <strong>Phone:</strong> <%= address.phone %><br>
+                                    <strong>Email:</strong> <%= address.email %><br>
+                                </p>
+                                <button type="button" class="btn-md btn-warning " onclick="openEditModal('<%= address.name %>','<%= address.address %>','<%= address.landmark %>', '<%= address.city %>','<%= address.state %>','<%= address.pincode %>',' <%= address.phone %>','<%= address.email %>','<%=address._id%>')">Edit</button>
+
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    <% } else { %>
+        <div class="col-lg-8">
+           <button type="button" onclick="openAddAddress()">Create Address</button>
+        </div>
+    <% } %>
+
+                           <aside class="col-lg-4">
+
+                            <div class="summary" id="reloadAmount">
+                                <h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
+
+                                <table class="table table-summary">
+                                    <thead>
+                                      
+                                    </thead>
+
+                                    <tbody>
+                                       <p> Delivery Charge : ₹40</p>
+                                      
+                                        
+                                      <tr class="summary-total">
+                                        <% if (discountAmount !== subtotal) { %>
+                                            <td>
+                                                Original amount: <del>₹ <%= subtotal %> </del>
+                                                <br>
+                                                Total with Discount: ₹ <%= discountAmount %>
+                                            </td>
+                                        <% } else { %>
+                                            <td>
+                                                Total: ₹ <%= subtotal %>
+                                            </td>
+                                        <% } %>
+                                        
+                                    </tr><!-- End .summary-total -->
+                                    </tbody>
+                                </table><!-- End .table table-summary -->
+                                
+                                <div class="accordion-summary" id="accordion-payment">
+                                   
+                                    <div class="card">
+                                        <div class="card-header" id="payment-heading">
+                                            <h2 class="card-title">
+                                                Payment Method
+                                            </h2>
+                                        </div><!-- End .card-header -->
+                                        <div id="payment-methods" class="card-body">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="paymentMethod" id="radio1" value="razorpay" checked>
+                                                <label class="form-check-labe ml-2" for="razorpay">
+                                                    Razorpay
+                                                </label>
+                                            </div>
+                                            <% if (subtotal <= 1000) { %>
+                                              <div class="form-check">
+                                                  <input class="form-check-input" type="radio" name="paymentMethod" id="radio2" value="cash on delivery">
+                                                  <label class="form-check-label ml-2" for="cashOnDeliver">
+                                                      Cash on Delivery
+                                                  </label>
+                                              </div>
+                                          <% } else { %>
+                                              <p class="text-danger">Cash on Delivery available only for orders below ₹1000</p>
+                                          <% } %>
+                                            <div class="form-check">
+                                              <% if(subtotal <= wallet.wallet ) { %> 
+                                              <input class="form-check-input" type="radio" name="paymentMethod" id="radio2" value="wallet">
+                                              <label class="form-check-label ml-2" for="wallet">
+                                                  Wallet
+                                              </label>
+                                              <p class="text-primary">Wallet Balance : <%= wallet.wallet %></p>
+                                              <% }else {  %>
+                                                <input class="form-check-input" type="radio" name="paymentMethod" id="radio2" value="wallet" disabled>
+                                              <label class="form-check-label ml-2" for="wallet">
+                                                  Wallet
+                                              </label>
+                                              <p class="text-primary">Wallet Balance : <%= wallet.wallet %></p>
+                                              <p class="text-danger">Not enough wallet balance</p>
+                                              <% } %>
+                                          </div>
+                                            
+                                        </div><!-- End .card-body -->
+                                    </div><!-- End .card -->
+                                    <!-- End .card -->
+                                </div><!-- End .accordion -->
+                              </div>
+                                <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block" id="razorpaybtn">
+                                    <span class="btn-text">Place Order</span>
+                                    <span class="btn-hover-text">Proceed to Checkout</span>
+                                </button>
+                            </form>
+                            </div><!-- End .summary -->
+                        </aside><!-- End .col-lg-3 -->
+                    </div><!-- End .row -->
+                
+            </div><!-- End .container -->
+        </div><!-- End .checkout -->
+    </div><!-- End .page-content -->
+</main><!-- End .main -->
+
+  
+  <!-- Modal -->
+
+
+  <div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+      <!--Content-->
+      <div class="modal-content text-center">
+        <!--Header-->
+        <div class="modal-header d-flex justify-content-center">
+            <% if(couponData) { %> 
+            <% for(let i = 0; i < couponData.length; i++){ %> 
+            <div class="card" style="width: 18rem;" id="reloadDiv">
+                <div class="card-body">
+                  <h5 class="card-title"><%= couponData[i].name %></h5>
+                  <p class="card-text"> code: <%= couponData[i].couponCode %></p>
+                  <p class="card-text">Discount Amount:₹<%= couponData[i].discountAmount %></p>
+                 
+                  <p class="card-text"> Only applicable if you order above:₹<%= couponData[i].criteriaAmount %></p>
+                 <% if(subtotal > couponData[i].criteriaAmount){ %>
+                  <% console.log('coupon ID:', couponData[i]._id, 'Applied coupon Id',
+                  cartData.couponDiscount ? cartData.couponDiscount._id 
+                  : 'No coupon Applied')%>
+                  <% if(discountAmount && couponData[i]._id.toString()
+                  !==(cartData.couponDiscount ?
+                  cartData.couponDiscount._id.toString(): null)){ %>
+                    <a href="#" class="btn btn-danger apply-coupon-button" data-coupon-id="<%= couponData[i]._id %>">Apply</a>
+                  <% }else if (cartData.couponDiscount &&
+                  couponData[i]._id.toString()===(cartData.couponDiscount._id
+                  ? cartData.couponDiscount._id.toString():null)) { %>
+                    <button type="submit"
+                            onclick="removeCoupon('<%=couponData[i]._id%>')"
+                           class="apply-btn btn btn-danger">
+                       <span> Remove</span>
+                    </button>
+                    <% } %>
+                    <% }  else { %>
+                      <span class="badge not-applicable">Not
+                        Applicable</span>
+                        <% } %>
+                      </div>
+                    </div>
+                        <%  } %>
+                        <% }else{  %>
+                          <p>No available coupons</p>
+                          <% } %>
+                        
+                
+        </div>
+   
+      </div>
+      
+    </div>
+  </div>
+ 
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="path/to/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/js/bootstrap.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/razorpay.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+ 
+function openEditModal(name,address,landmark,city,state,pincode,phone,email,addressId){ 
+    $('#myCheckoutEditAddressModal').modal('show'); 
+
+    console.log("aa van");
+  document.getElementById('editCheckAddressName').value = name
+  document.getElementById('editCheckAddressAddress').value = address
+  document.getElementById('editCheckAddressLandmark').value = landmark
+  document.getElementById('editCheckAddressCity').value =  city
+  document.getElementById('editCheckAddressState').value = state
+  document.getElementById('editCheckAddressPincode').value = pincode
+  document.getElementById('editCheckAddressPhone').value = phone
+  document.getElementById('editCheckAddressEmail').value = email
+  document.getElementById('editCheckAddressId').value = addressId
+
+}
+
+
+$(document).ready(function() {
+        $('#checkoutForm').submit(function(event) {
+            event.preventDefault();
+
+           
+            var formData = $(this).serialize();
+         console.log(formData,'koo');
+           
+            $.ajax({
+                type: 'POST',
+                url: '/checkoutForm',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        
+                    const orderId = response.orderId
+                    window.location.href = `/success?id=${orderId}`
+                        console.log(orderId);
+                    }else if(response.success === false){ 
+                        console.log("success false");
+                        razorpayPayment(response.order)
+                    }
+                    console.log('Response from server:', response);
+
+                  
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                   
+                }
+            });
+        });
+    });
+
+</script>
+
+<script>
+     function razorpayPayment(order){
+
+        let options = {
+            "key" : "rzp_test_1tR3oFB9bQGNx4",
+            "amount" : order.amount,
+            "currency" : "INR",
+            "name": "gents highbury",
+            "description":"Test Transaction",
+            "image": "",
+            "order_id":order.id,
+            "handler":function (response){
+                verifypayment(response , order)
+            },
+            "prefill": {
+                "name": "Gaurav Kumar",
+                    "email": "gaurav.kumar@example.com",
+                    "contact": "9000090000"
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+
+        };
+        let razp1 = new Razorpay(options);
+        razp1.open();
+
+        function verifypayment(payment, order){
+            $.ajax({
+                url:"/verifypayment",
+                method:'post',
+                data:{
+                    payment,
+                    order
+                },
+                success:(response) => {
+                   console.log("aajax",response);
+                   if(response.success){
+                    let orderId = response.orderId
+                    window.location.href = `/success?id=${orderId}`;
+                   }
+                   else if (response.onlineSuccess){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Payment has done',
+                        showConfirmButton:false,
+                        timer:1500
+                    })
+                   }
+                }
+            })
+        }
+     }
+</script>
+
+<script>
+
+$('.apply-coupon-button').on('click', function(event) {
+  event.preventDefault(); 
+
+  const couponId = $(this).data('coupon-id');
+    console.log('id :',couponId );
+  $.ajax({
+    url: '/applyCoupon',
+    method: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify({ couponId: couponId }),
+    success: function(response) {
+      if(response.coupon === false){
+        Swal.fire({
+            title: "No Coupon Available",
+            icon: "error",
+            confirmBUttonText: "OK",
+        })
+      }else if(response.coupon === 'Already applied'){
+        Swal.fire({
+            title: "Once coupon is already active",
+            icon:"error",
+            confirmBUttonText:"OK"
+        })
+      }else if(response.coupon==='Already used'){
+        Swal.fire({
+            title: "You already used this coupon",
+            icon:"error",
+            confirmBUttonText:"OK"
+        })
+      }else if(response.coupon === 'expired'){
+        Swal.fire({
+            title: "This coupon has expired",
+            icon:"info",
+            confirmBUttonText:"OK"
+        })
+      }else if(response.coupon){
+        Swal.fire({
+            title: "Coupon added Successfully",
+            icon:"errpr",
+            confirmButtonText:"OK"
+        }).then((result) =>{
+          if(result.isConfirmed) {
+            $('#reloadDiv').load('/checkout #reloadDiv');
+            $('#reloadAmount').load('/checkout #reloadAmount')
+          }
+        })
+      }  
+    },
+  });
+});
+</script>
+
+<script>
+    function removeCoupon(id){
+      console.log(id,"nichi");
+      $.ajax({
+        url: "/removeCoupon",
+        method: 'post',
+        data: {
+          id, 
+        },
+        success:(response)=>{
+          if(response.success){
+            Swal.fire({
+              title: "coupon removed",
+              icon:"success",
+              confirmBUttonText:"OK"
+            }).then((result)=>{
+              if(result.isConfirmed){
+                $('#reloadDiv').load('/checkout #reloadDiv');
+                $('#reloadAmount').load('/checkout #reloadAmount')
+              }
+            })
+          }
+        }
+      })
+    }
+</script>
+
+
+  <script>
+  function validateEditAddress() {
+    // Get form elements using jQuery .val()
+    var name = $('#editCheckAddressName').val().trim();
+    var address = $('#editCheckAddressAddress').val().trim();
+    var landmark = $('#editCheckAddressLandmark').val().trim();
+    var city = $('#editCheckAddressCity').val().trim();
+    var state = $('#editCheckAddressState').val().trim();
+    var pincode = $('#editCheckAddressPincode').val().trim(); // Added '#' before the selector
+    var phone = $('#editCheckAddressPhone').val().trim();
+    var email = $('#editCheckAddressEmail').val().trim();
+
+    // Simple validation example (you can customize this based on your requirements)
+    if (name === "") {
+      document.getElementById('editnameError').innerText = "Name cannot be empty.";
+      return false;
+    }
+
+    if (address === "") {
+     document.getElementById('addressError').innerText = "Address cannot be empty.";
+      return false;
+    }
+
+    if (landmark === "") {
+      document.getElementById('landmarkError').innerText = "Landmark cannot be empty.";
+      return false;
+    }
+
+    if (state === "") {
+      document.getElementById('stateError').innerText = "State cannot be empty.";
+      return false;
+    }
+
+    if (city === "") {
+      document.getElementById('cityError').innerText = "City cannot be empty.";
+      return false;
+    }
+
+    if (pincode === "") {
+      document.getElementById('pincodeError').innerText = "Pincode cannot be empty.";
+      return false;
+    }
+
+    if (phone === "") {
+      document.getElementById('phoneError').innerText = "Number cannot be empty.";
+      return false;
+    } else if (!/^[0-9]{10}$/.test(phone)) {
+      document.getElementById('phoneError').innerText = "Invalid phone number. Please enter a 10-digit numeric value";
+      return false;
+    }
+
+    if (email === "") {
+      document.getElementById('emailError').innerText = "Email cannot be empty.";
+      return false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      document.getElementById('emailError').innerText = "Invalid email address."
+      return false;
+    }
+
+    return true;
+}
+</script>
+
+
+<%- include('../layout/user/footer.ejs') -%>

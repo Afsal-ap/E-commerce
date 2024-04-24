@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Report</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sales Report</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Total Products</h5>
+            <p class="card-text"><%= totalProducts %></p>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Total Orders</h5>
+            <p class="card-text"><%= totalOrders %></p>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Total Revenue</h5>
+            <p class="card-text"><%= revenue[0].totalRevenue %></p>
+        </div>
+    </div>
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Billing Name</th>
+            <th>Date</th>
+            <th>Total Price</th>
+            <th>Payment</th>
+        </tr>
+        <% orders.forEach(order => { %>
+           
+                <tr>
+                    <td><%= order._id %></td>
+                    <td><%= order.delivery_address.name %></td>
+                    <td><%= new Date(order.orederDate).toLocaleDateString() %></td>
+                    <td><%= order.subtotal %></td>
+                    <td><%= order.payment %></td>
+                </tr>
+            <% }) %>
+      
+    </table>
+</body>
+</html>

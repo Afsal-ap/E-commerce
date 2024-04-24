@@ -32,10 +32,11 @@
     <!-- Main CSS File -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/demos/demo-15.css">
+    <link rel="stylesheet" href="path/to/elevatezoom/jquery.elevatezoom.css">
   
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnify@2.5.0/dist/css/magnify.css">
-  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body>
@@ -58,39 +59,20 @@
                                 <li class="megamenu-container active">
                                     <a href="/" class="sf-with-ul ">Home</a>
 
-                                    <div class="megamenu demo">
-                                        <div class="menu-col">
+                                   
                                            
                                 <li> 
                                     <a href="/shop" class="sf-with-ul">Shop</a>
 
                                     <div class="megamenu megamenu-md">
-                                        <div class="row no-gutters">
-                                            <div class="col-md-8">
-                                                <div class="menu-col">
-                                                  
-                                                        
-                                                </div><!-- End .menu-col -->
-                                            </div><!-- End .col-md-8 -->
-
-                                            <div class="col-md-4">
-                                                <div class="banner banner-overlay">
-                                                    <a href="category.html" class="banner banner-menu">
-                                                        <img src="assets/images/menu/banner-1.jpg" alt="Banner">
-
-                                                        <div class="banner-content banner-content-top">
-                                                          
-                                                    </a>
-                                                </div><!-- End .banner banner-overlay -->
-                                            </div><!-- End .col-md-4 -->
-                                        </div><!-- End .row -->
+                                       <!-- End .row -->
                                     </div><!-- End .megamenu megamenu-md -->
                                 </li>
                                 <li>
                                     <a href="product.html" class="sf-with-ul">Product</a>
 
                                     <div class="megamenu megamenu-sm">
-                                        <div class="">
+                                        
                                             <div class="col-md-6">
                                                
 
@@ -114,14 +96,10 @@
                                         <li>
                                             <a href="contact.html" class="sf-with-ul">Contact</a>
 
-                                            <ul>
-                                                <li><a href="contact.html">Contact 01</a></li>
-                                                <li><a href="contact-2.html">Contact 02</a></li>
-                                            </ul>
+                                           
                                         </li>
                                         <li><a href="/login">Login</a></li>
-                                        <li><a href="faq.html">FAQs</a></li>
-                                        <li><a href="404.html">Error 404</a></li>
+                                       
                                        
                                     </ul>
                                 </li>
@@ -135,10 +113,11 @@
 
                     <div class="header-right">
          
-                        <span class="material-symbols-outlined">
-                            account_circle
-                            </span>
-                        <a href="wishlist.html" class="wishlist-link">
+                        <a href="/profile">
+                            <span class="material-symbols-outlined pt-1" style="color: black;">account_circle</span>
+                          </a>
+                           
+                        <a href="/wishlist" class="wishlist-link">
                             <i class="icon-heart-o" style="color:black;"></i>
                         </a>
 
@@ -149,56 +128,12 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right">
-                                <div class="dropdown-cart-products">
-                                    <div class="product">
-                                        <div class="product-cart-details">
-                                            <h4 class="product-title">
-                                                <a href="product.html">Beige knitted elastic runner shoes</a>
-                                            </h4>
+                               
 
-                                            <span class="cart-product-info">
-                                                <span class="cart-product-qty">1</span>
-                                                x $84.00
-                                            </span>
-                                        </div><!-- End .product-cart-details -->
-
-                                        <figure class="product-image-container">
-                                            <a href="product.html" class="product-image">
-                                                <img src="assets/images/products/cart/product-1.jpg" alt="product">
-                                            </a>
-                                        </figure>
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                    </div><!-- End .product -->
-
-                                    <div class="product">
-                                        <div class="product-cart-details">
-                                            <h4 class="product-title">
-                                                <a href="product.html">Blue utility pinafore denim dress</a>
-                                            </h4>
-
-                                            <span class="cart-product-info">
-                                                <span class="cart-product-qty">1</span>
-                                                x $76.00
-                                            </span>
-                                        </div><!-- End .product-cart-details -->
-
-                                        <figure class="product-image-container">
-                                            <a href="product.html" class="product-image">
-                                                <img src="assets/images/products/cart/product-2.jpg" alt="product">
-                                            </a>
-                                        </figure>
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                    </div><!-- End .product -->
-                                </div><!-- End .cart-product -->
-
-                                <div class="dropdown-cart-total">
-                                    <span>Total</span>
-
-                                    <span class="cart-total-price">$160.00</span>
-                                </div><!-- End .dropdown-cart-total -->
+                              
 
                                 <div class="dropdown-cart-action">
-                                    <a href="cart.html" class="btn btn-primary">View Cart</a>
+                                    <a href="/cart" class="btn btn-primary">View Cart</a>
                                     <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
                                 </div><!-- End .dropdown-cart-total -->
                             </div><!-- End .dropdown-menu -->

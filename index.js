@@ -8,6 +8,7 @@ const session = require('express-session')
 const config = require('./config/config')
 const ejs = require('ejs')
 const mongoose = require('mongoose')
+const nocache = require('nocache')
 
 //connect to mongodb
 mongoose.connect('mongodb://127.0.0.1:27017/ecommerce', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -19,6 +20,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/ecommerce', { useNewUrlParser: true,
     console.error('Error connecting to MongoDB:', error);
   });
   
+
+app.use(nocache())
          
 app.use(session({
     secret:"qwertyuiop",
@@ -39,7 +42,7 @@ app.use('/',userRoute)
 app.use('/admin',adminRoute)
 
 
-app.listen(7999,(req,res)=>{
+app.listen(7999,(req,res)=>{   
     console.log("server is listening http://localhost:7999");    
 
 })

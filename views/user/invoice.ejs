@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <style>
+      
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .address-details {
+            margin-bottom: 20px;
+        }
+        .order-details {
+            margin-bottom: 20px;
+        }
+        .total {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Order Details</h1>
+        </div>
+
+        <!-- User Address Details -->
+        <div class="address-details">
+            <h2>Billing  Details</h2>
+            <p><strong>Delivery Address:</strong></p>
+            <p>Billing name:<%= order.delivery_address.name %></p>
+            <p>Billing address:<%= order.delivery_address.address %></p>
+            <p>State:<%= order.delivery_address.state %>, <%= order.delivery_address.city %></p>
+            <p>Pincode: <%= order.delivery_address.pincode %></p>
+        </div>
+
+        <!-- Ordered Products -->
+        <div class="order-details">
+            <h2>Ordered Products</h2>
+            <table border="1" cellspacing="0" cellpadding="5">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% order.products.forEach(function(product) { %>
+                        <tr>
+                            <td><%= product.productId.name %></td>
+                            <td><%= product.quantity %></td>
+                            <td>₹ <%= product.price %></td>
+                            <td>₹ <%= product.totalPrice %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+          
+                <p><strong>Subtotal:</strong> ₹ <%= order.subtotal %></p>
+                <p><strong>Order Status:</strong> <%= order.orderStatus %></p>          
+            
+        </div>
+
+        <!-- Total -->
+       
+    </div>
+</body>
+</html>

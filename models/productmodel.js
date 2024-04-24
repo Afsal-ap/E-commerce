@@ -13,6 +13,14 @@ const productSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    offer :{
+        type: objectId,
+        ref : 'offer'
+    },
+    discountedPrice :{
+         type: Number
+    },
+    
     categoryId:{
         type:objectId,
         ref:'categoryModel',

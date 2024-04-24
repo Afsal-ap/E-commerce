@@ -1,0 +1,225 @@
+
+<%- include('../layout/user/header.ejs') -%>
+
+<main class="main">
+    <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        <div class="container">
+            <h1 class="page-title">Shopping Cart<span>Shop</span></h1>
+        </div><!-- End .container -->
+    </div><!-- End .page-header -->
+    <nav aria-label="breadcrumb" class="breadcrumb-nav">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+            </ol>
+        </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
+
+    <div class="page-content">
+        <div class="cart"  id="reloadDiv">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <table class="table table-cart table-mobile" >
+                            <thead>
+                               
+                                <% if (cartData !== null && cartData.product && cartData.product.length > 0) { %> 
+                               
+                                    
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody >
+                                <% cartData.product.forEach(function(cartProduct , index) { %> 
+                                <tr>
+                                    <td class="product-col">
+                                        <div class="product">
+                                            <figure class="product-media">
+                                                <a href="#">
+                                                    <img src="multerImages/<%= cartProduct.productId.images.image1 %>" alt="Product image">
+                                                </a>
+                                            </figure>
+
+                                            <h3 class="product-title"><%= cartProduct.productId.name %>
+                                                <a href="#"></a>
+                                            </h3><!-- End .product-title -->
+                                        </div><!-- End .product -->
+                                    </td>
+                                    <% if (!cartProduct.productId.offer) { %>
+                                        <td class="price-col"><%= cartProduct.productId.price %></td>
+                                    <% } else { %>
+                                        <td class="price-col">
+                                            <del style="color: red;">₹ <%= cartProduct.productId.price %></del>
+                                            <%= cartProduct.productId.discountedPrice %>
+                                        </td>
+                                    <% } %>
+                                           <td class="quantity-col" >
+                                           <div class="cart-product-quantity d-flex" >
+                                           
+                                                <input type="button" onclick="quantity('<%=cartProduct.productId._id%>',-1)" value="-" />
+                                                <input type="text" name="quantity" value="<%= cartProduct.quantity %>" maxlength="2" max="10" size="1" id="number" />
+                                                <input type="button" onclick="quantity('<%=cartProduct.productId._id%>',1)" value="+" />
+                                               
+                                        </div><!-- End .cart-product-quantity -->
+                                    </td><!-- End .cart-product-quantity -->
+                                    </td>       
+                                               
+                                    <td class="total-col">
+                                        <% if (!cartProduct.productId.offer) { %>
+                                            <%= cartProduct.productId.price * cartProduct.quantity %>
+                                        <% } else { %>
+                                            <%= (cartProduct.quantity * cartProduct.productId.discountedPrice) %>
+                                        <% } %>
+                                    </td>
+                                    <td class="remove-col"><button class="btn-remove" onclick="removeFromCart('<%=cartProduct._id%>')"><i class="icon-close"></i></button></td>
+                                </tr>
+                                <% }) %>
+                            </tbody>
+                        </table><!-- End .table table-wishlist -->
+                       
+
+                        <div class="cart-bottom">
+                           
+
+                        </div><!-- End .cart-bottom -->
+                    </div><!-- End .col-lg-9 -->
+                    <aside class="col-lg-3">
+                        <div class="summary summary-cart">
+                            <h3 class="summary-title">Cart Total</h3><!-- End .summary-title -->
+
+                            <table class="table table-summary">
+                                
+                                <tbody>
+                                    <tr class="summary-subtotal">
+                                        <td>Subtotal:</td>
+
+                                        <td>
+                                           
+                                        </td>
+                                        
+                                    </tr><!-- End .summary-subtotal -->
+                                    <tr class="summary-shipping">
+                                        <td>Shipping:</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                      
+
+                                    <!-- End .summary-shipping-estimate -->
+                                   
+                                    <tr class="summary-total">
+                                        <td>Total:</td>
+                                        <td><%= subtotal %></td>
+                                    </tr><!-- End .summary-total -->
+                                    
+                                </tbody>
+                            </table><!-- End .table table-summary -->
+
+                            <a href="/checkout" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
+                        </div><!-- End .summary -->
+
+                    </aside><!-- End .col-lg-3 -->
+                    <% } else {  %>
+                        
+                        <h1>   No  products in cart </h1>
+                        <% } %>
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+        </div><!-- End .cart -->
+    </div><!-- End .page-content -->
+</main><!-- End .main -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+<script>
+  function quantity(productId, count){
+    const data = {productId, count};
+    $.ajax({
+        url:'/updateCart',
+        method:'POST',
+        contentType:'application/json',
+        data:JSON.stringify(data),
+        success: (response) => {
+            if (response.success){
+                $("#reloadDiv").load("/cart #reloadDiv")
+            }else{
+                Swal.fire({
+                    icon:"info",
+                    title:"Oops!!",
+                    text:response.message
+                })
+            }
+        },
+        error: (error) => {
+            console.error('Error updating cart:',error)
+        }
+    })
+  }
+
+
+    
+    </script>
+
+<script>  
+async function removeFromCart(productId) {
+    try {
+        console.log(productId , "loo");
+        const response = await fetch('/removeCart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                productId: productId,
+              
+            }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Item removed from the cart",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            location.reload()
+        } else {
+            
+            Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "Failed to remove item from the cart",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        }
+    } catch (error) {
+        console.error('Error removing from cart:', error);
+
+        Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: "An error occurred while removing from the cart",
+            showConfirmButton: false,
+            timer: 1500,
+        });
+    }
+};
+
+</script>
+
+
+
+<%- include('../layout/user/footer.ejs') -%>

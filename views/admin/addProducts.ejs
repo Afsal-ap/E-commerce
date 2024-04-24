@@ -143,7 +143,7 @@
                                 <h4>Basic</h4>
                             </div>
                             <div class="card-body"> 
-                                <form  method="post" action="/admin/addProducts" id="addProductForm" enctype="multipart/form-data" onsubmit="return validateForm()">
+                                <form  method="post" action="/admin/addProducts" id="addProductForm" enctype="multipart/form-data">
                                     <div class="mb-4">
                                         <label for="product_name" class="form-label">Product title</label>
                                         <input type="text" placeholder="Type here" class="form-control" id="product-name" name="name" />
@@ -195,35 +195,51 @@
                                 <div class="input-upload">
                                     <!-- Image 1 -->
                                     <div class="image-container" id="imagefiles1">
-                                        <div class="image-preview" id="imagePreview1">image 1</div>
-                                        <input class="form-control" id="imageInput1" accept="image/*" type="file" name="image1" onchange="previewImage(this, 'imagePreview1', 'imageInput1')" />
-                                        <button onclick="removeImage('removeImagePreview1', 'removeimageInput1')">Remove</button>
+                                        <div class="image-preview" id="imagePreview1">
+                                            <!-- Placeholder for uploaded image -->
+                                            <img src="" alt="Image Preview" id="uploadedImage1" style="display: none;">
+                                        </div>
+                                        <input class="form-control" id="imageInput1" type="file" accept="image/*" name="image1" onchange="previewImage(this, 'imagePreview1', 'uploadedImage1', 'removeButtonContainer1')" />
+                                        <!-- Add a span element for the Remove button -->
+                                        <span id="removeButtonContainer1"></span>
                                     </div>
                                     <!-- Image 2 -->
                                     <div class="image-container" id="imagefiles2">
-                                        <div class="image-preview" id="imagePreview2">image 2</div>
-                                        <input class="form-control" id="imageInput2"  type="file" accept="image/*" name="image2" onchange="previewImage(this, 'imagePreview2', 'imageInput2')" />
-                                        <button onclick="removeImage('removeImagePreview2', 'removeimageInput2')">Remove</button>
+                                        <div class="image-preview" id="imagePreview2">
+                                            <!-- Placeholder for uploaded image -->
+                                            <img src="" alt="Image Preview" id="uploadedImage2" style="display: none;">
+                                        </div>
+                                        <input class="form-control" id="imageInput2" type="file" accept="image/*" name="image2" onchange="previewImage(this, 'imagePreview2', 'uploadedImage2', 'removeButtonContainer2')" />
+                                        <!-- Add a span element for the Remove button -->
+                                        <span id="removeButtonContainer2"></span>
                                     </div>
                                     <!-- Image 3 -->
                                     <div class="image-container" id="imagefiles3">
-                                        <div class="image-preview" id="imagePreview3">image 3</div>
-                                        <input class="form-control" id="imageInput3" accept="image/*"  type="file" name="image3" onchange="previewImage(this, 'imagePreview3', 'imageInput3')" />
-                                        <button onclick="removeImage('removeImagePreview3', 'removeimageInput3')">Remove</button>
+                                        <div class="image-preview" id="imagePreview3">
+                                            <!-- Placeholder for uploaded image -->
+                                            <img src="" alt="Image Preview" id="uploadedImage3" style="display: none;">
+                                        </div>
+                                        <input class="form-control" id="imageInput3" type="file" accept="image/*" name="image3" onchange="previewImage(this, 'imagePreview3', 'uploadedImage3', 'removeButtonContainer3')" />
+                                        <!-- Add a span element for the Remove button -->
+                                        <span id="removeButtonContainer3"></span>
                                     </div>
                                     <!-- Image 4 -->
                                     <div class="image-container" id="imagefiles4">
-                                        <div class="image-preview" id="imagePreview4">image 4</div>
-                                        <input class="form-control" id="imageInput4" accept="image/*"  type="file" name="image4" onchange="previewImage(this, 'imagePreview4', 'imageInput4')" />
-                                        <button onclick="removeImage('removeImagePreview4', 'removeimageInput4')">Remove</button>
+                                        <div class="image-preview" id="imagePreview4">
+                                            <!-- Placeholder for uploaded image -->
+                                            <img src="" alt="Image Preview" id="uploadedImage4" style="display: none;">
+                                        </div>
+                                        <input class="form-control" id="imageInput4" type="file" accept="image/*" name="image4" onchange="previewImage(this, 'imagePreview4', 'uploadedImage4', 'removeButtonContainer4')" />
+                                        <!-- Add a span element for the Remove button -->
+                                        <span id="removeButtonContainer4"></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <button  type="submit" class="btn btn-md rounded font-sm hover-up"  >Save</button>
                     </div>
                     
                             
-                         <button  type="submit" class="btn btn-md rounded font-sm hover-up"  >Save</button>
                      </div>
                     </form>
                  
@@ -250,111 +266,102 @@
 
 
       <script>
-              
-              function validateForm() {
 
-                console.log("koool");
-            // Reset error messages
-            resetErrorMessages();
+            // validate add product fields
 
-            // Validate each field
-            if (!validateField('product-name', 'productTitleError', 'Product title is required.')) return false;
-            if (!validateField('product-quantity', 'quantityError', 'Quantity is required.')) return false;
-            if (!validateField('product-category', '', 'Category is required.')) return false; // You can add a specific error message for the category if needed
-            if (!validateField('product-price', 'priceError', 'Price is required.')) return false;
-            if (!validateField('product-description', 'descriptionError', 'Description is required.')) return false;
+     document.getElementById('addProductForm').addEventListener('submit', (e) => {
+        const productName = document.getElementById('product-name').value.trim();
+        const productQuantity = document.getElementById('product-quantity').value.trim();
+        const productCategory = document.getElementById('product-category').value;
+        const productPrice = document.getElementById('product-price').value.trim();
+        const productDescription = document.getElementById('product-description').value.trim();
 
-            // Add image validation for each image field
-            if (!validateImage('imageInput1', 'imagePreview1', 'Image 1 is required.')) return false;
-            if (!validateImage('imageInput2', 'imagePreview2', 'Image 2 is required.')) return false;
-            if (!validateImage('imageInput3', 'imagePreview3', 'Image 3 is required.')) return false;
-            if (!validateImage('imageInput4', 'imagePreview4', 'Image 4 is required.')) return false;
-            // Add similar lines for Image 2, Image 3, and Image 4
+        const productTitleError = document.getElementById('productTitleError');
+        const quantityError = document.getElementById('quantityError');
+        const categoryError = document.getElementById('categoryError');
+        const priceError = document.getElementById('priceError');
+        const descriptionError = document.getElementById('descriptionError');
+        const imageError = document.getElementById('imageError');
 
-            return true; // If all validation passes, allow the form to submit
+        let isValid = true;
+
+        // Validate product title
+        if (productName === '') {
+            productTitleError.textContent = 'Product title is required.';
+            isValid = false;
+        } else {
+            productTitleError.textContent = '';
         }
 
-        function validateImage(inputId, previewId, errorMessage) {
-            var fileInput = document.getElementById(inputId);
-            var imagePreview = document.getElementById(previewId);
-
-            // Check if a file is selected
-            if (!fileInput.files || fileInput.files.length === 0 ) {
-                document.getElementById('imagefiles1').innerHTML = errorMessage;
-               
-                return false;
-            }
-            if (!fileInput.files || fileInput.files.length === 0 ) {
-                document.getElementById('imagefiles2').innerHTML = errorMessage;
-               
-                return false;
-            }
-            if (!fileInput.files || fileInput.files.length === 0 ) {
-                document.getElementById('imagefiles3').innerHTML = errorMessage;
-               
-                return false;
-            }
-            if (!fileInput.files || fileInput.files.length === 0 ) {
-                document.getElementById('imagefiles4').innerHTML = errorMessage;
-               
-                return false;
-            }
-
-            // Additional checks if needed (e.g., file type, size, etc.)
-
-            return true;
+        // Validate quantity
+        if (productQuantity === '') {
+            quantityError.textContent = 'Quantity is required.';
+            isValid = false;
+        } else {
+            quantityError.textContent = '';
         }
 
-        function validateField(fieldName, errorDiv, errorMessage) {
-            var field = document.getElementById(fieldName).value.trim();
-
-            if (field === "") {
-                document.getElementById(errorDiv).innerHTML = errorMessage;
-                return false;
-            }
-
-            return true;
+        // Validate price
+        if (productPrice === '') {
+            priceError.textContent = 'Price is required.';
+            isValid = false;
+        } else if (isNaN(productPrice) || Number(productPrice) <= 0) {
+            priceError.textContent = 'Please enter a valid price.';
+            isValid = false;
+        } else {
+            priceError.textContent = '';
         }
 
-        function resetErrorMessages() {
-            // Reset all error messages to empty
-            document.getElementById('productTitleError').innerHTML = "";
-            document.getElementById('quantityError').innerHTML = "";
-            document.getElementById('priceError').innerHTML = "";
-            document.getElementById('descriptionError').innerHTML = "";
-
-            // Reset category error message if needed
-            // document.getElementById('categoryError').innerHTML = "";
+        // Validate description
+        if (productDescription === '') {
+            descriptionError.textContent = 'Description is required.';
+            isValid = false;
+        } else {
+            descriptionError.textContent = '';
         }
-        
+      
 
+        if (!isValid) {
+            e.preventDefault();
+        }
+    });
 
+   
+        // image previewing and imaage removing 
 
+    function previewImage(input, previewId, uploadedImageId, removeButtonContainerId) {
+    const preview = document.getElementById(previewId);
+    const uploadedImage = document.getElementById(uploadedImageId);
+    const removeButtonContainer = document.getElementById(removeButtonContainerId);
 
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
 
-          function previewImage(input, previewId){
-            console.log("rrrr");
-            const preview = document.getElementById(previewId);
-            const file = input.files[0];
+        reader.onload = function (e) {
+            uploadedImage.src = e.target.result;
+            uploadedImage.style.display = 'block';
+            removeButtonContainer.innerHTML = '<button onclick="removeImage(\'' + previewId + '\', \'' + input.id + '\', \'' + uploadedImageId + '\', \'' + removeButtonContainerId + '\')">Remove</button>';
+        };
 
-            if(file){
-               const reader = new FileReader();
-               
-               reader.onload = function (e) {
-                const image = new Image();
-                image.src = e.target.result;
-                image.width = 130;
+        reader.readAsDataURL(input.files[0]);
+    }
+}
 
-                preview.innerHTML = '';
-                preview.appendChild(image)
-               }
-               reader.readAsDataURL(file);
+function removeImage(previewId, inputId, uploadedImageId, removeButtonContainerId) {
+    const preview = document.getElementById(previewId);
+    const input = document.getElementById(inputId);
+    const uploadedImage = document.getElementById(uploadedImageId);
+    const removeButtonContainer = document.getElementById(removeButtonContainerId);
 
-            }else{
-                preview.innerHTML = '';
-            }
-          }
-      </script>
+    preview.innerHTML = ''; 
+    input.value = ''; 
+    uploadedImage.src = ''; 
+    uploadedImage.style.display = 'none';
+    removeButtonContainer.innerHTML = ''; 
+}
+   
+</script>
+      
 
 
 

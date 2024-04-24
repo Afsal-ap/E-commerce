@@ -9956,6 +9956,20 @@ small.form-text {
     max-width: none;
     width: 100%; }
 
+
+    /*   image zoom  */
+
+    .product-zoom-container {
+      overflow: hidden;
+      position: relative;
+  }
+  
+  #productImage {
+      width: 100%;
+      transition: transform 0.5s ease;
+  }
+     
+
 .instagram-feed-content {
   position: absolute;
   display: flex;

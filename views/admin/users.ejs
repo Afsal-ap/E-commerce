@@ -58,27 +58,36 @@
                             <i class="icon material-icons md-shopping_cart"></i>
                             <span class="text">Category</span>
                         </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/orders">
+                            <i class="icon material-icons md-shopping_bag"></i>
+                            <span class="text">Orders</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/coupon">
+                            <i class="icon material-icons md-shopping_bag"></i>
+                            <span class="text">Coupon</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/offer">
+                            <i class="icon material-icons md-shopping_bag"></i>
+                            <span class="text">Offer</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/Sales">
+                            <i class="icon material-icons md-shopping_bag"></i>
+                            <span class="text">Sales</span>
+                        </a>
+                    </li>
                         
                    
                 </ul>
                 <hr />
-                <!-- <ul class="menu-aside">
-                    <li class="menu-item has-submenu">
-                        <a class="menu-link" href="#">
-                            <i class="icon material-icons md-settings"></i>
-                            <span class="text">Settings</span>
-                        </a>
-                        <div class="submenu">
-                            <a href="page-settings-1.html">Setting sample 1</a>
-                            <a href="page-settings-2.html">Setting sample 2</a>
-                        </div>
-                    </li> -->
-                    <!-- <li class="menu-item">
-                        <a class="menu-link" href="page-blank.html">
-                            <i class="icon material-icons md-local_offer"></i>
-                            <span class="text"> Starter page </span>
-                        </a>
-                    </li> -->
+              
                 </ul>
                 <br />
                 <br />
@@ -188,16 +197,16 @@
                             </tr>
                         </thead>
                         <tbody>
-
+                            <% const usersPerPage = 10; %> 
                            <%   if(users.length>0) { %>
-                           <% for (let i=0; i< users.length; i++){ %>
+                           <% const startIndex = (currentPage - 1) * usersPerPage + 1; %>
+                           <% for (let i= 0; i< users.length; i++){ %>
                            <% if (users[i].isAdmin===0){ %>
-                                
-                        
+
                                     <tr>  
                                          <td>
 
-                                            <%= i %>
+                                            <%=  startIndex + (i-1) %>
                                          </td>
                                          <td><b>
                                             <%= users[i].name %>
@@ -215,18 +224,7 @@
                                      </td>
                                      <td>
 
-                                                 <!-- Assuming users array is available in your EJS template -->
-<!-- <% for (let i = 0; i < users.length; i++) { %> -->
-   
-      
-      <!-- <% if (users[i].isBlocked) { %>
-        <button class="badge bg-danger" style="border: none;" onclick="toggleBlock('<%= users[i]._id %>')">Unblock</button>
-      <% } else { %>
-        <button class="badge badge-soft-success" style="border: none;" onclick="toggleBlock('<%= users[i]._id %>')">Block</button>
-      <% } %>
-   
-  <% } %> -->
-
+ 
                                           <% if (users[i].is_blocked){ %> 
                                     
                                     <button class="badge bg-danger" style="border : none;"
@@ -287,7 +285,6 @@ function confirmUnblock(userId) {
 
                                 function unblock(userId) {
                                     console.log("yy");
-                                  // Use AJAX to send a POST request to the server to toggle block status
                                   fetch(`/admin/unblockusers/${userId}`, { method: 'POST' })
                                     .then(response => response.json())
                                     .then(data => {
@@ -303,7 +300,7 @@ function confirmUnblock(userId) {
                               
                                 function block(userId) {
                                     console.log("yayay");
-                                  // Use AJAX to send a POST request to the server to toggle block status
+                                  
                                   fetch(`/admin/blockusers/${userId}`, { method: 'POST' })
                                     .then(response => response.json())
                                     .then(data => {
@@ -318,11 +315,7 @@ function confirmUnblock(userId) {
                                 }
                               
                             </script>       
-                                 
-
-                      
-
-                        </tbody>
+                    </tbody>
                     </table>
                     <!-- table-responsive.// -->
                 </div>
@@ -333,14 +326,13 @@ function confirmUnblock(userId) {
         <div class="pagination-area mt-15 mb-50">
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-start">
-                    <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                    <li class="page-item"><a class="page-link" href="#">02</a></li>
-                    <li class="page-item"><a class="page-link" href="#">03</a></li>
-                    <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                    <li class="page-item"><a class="page-link" href="#">16</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a>
-                    </li>
+                    <% for (let page = 1; page <= totalPages; page++) { %>
+                        <% if (page === currentPage) { %>
+                            <li class="page-item active"><a class="page-link" href="#"><%= page %></a></li>
+                        <% } else { %>
+                            <li class="page-item"><a class="page-link" href="/admin/users?page=<%= page %>"><%= page %></a></li>
+                        <% } %>
+                    <% } %>
                 </ul>
             </nav>
         </div>

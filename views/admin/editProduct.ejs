@@ -43,12 +43,7 @@
                 <span class="text">Users</span>
             </a>
            
-            <!-- <div class="submenu">
-                <a href="page-products-list.html">Product List</a>
-                <a href="page-products-grid.html">Product grid</a>
-                <a href="page-products-grid-2.html">Product grid 2</a>
-                <a href="page-categories.html">Categories</a>
-            </div> -->
+          
         </li>
         <li class="menu-item active">
             <a class="menu-link" href="/admin/product">
@@ -56,17 +51,38 @@
                 <span class="text">Products</span>
             </a>
            
-            <!-- <div class="menu-item">
-                <a href="page-orders-1.html">Order list 1</a>
-                <a href="page-orders-2.html">Order list 2</a>
-                <a href="page-orders-detail.html">Order detail</a>
-            </div> -->
+          
         </li>
         <li class="menu-item">
             <a class="menu-link" href="/admin/category">
                 <i class="icon material-icons md-shopping_cart"></i>
                 <span class="text">Category</span>
             </a>
+        </li>
+        <li class="menu-item">
+            <a class="menu-link" href="/admin/orders">
+                <i class="icon material-icons md-shopping_bag"></i>
+                <span class="text">orders</span>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a class="menu-link" href="/admin/coupon">
+                <i class="icon material-icons md-shopping_bag"></i>
+                <span class="text">Coupon</span>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a class="menu-link" href="/admin/offer">
+                <i class="icon material-icons md-shopping_bag"></i>
+                <span class="text">Offer</span>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a class="menu-link" href="/admin/Sales">
+                <i class="icon material-icons md-shopping_bag"></i>
+                <span class="text">Sales</span>
+            </a>
+        </li>
           
     </ul>
     <br />
@@ -143,7 +159,7 @@
                                 <h4>Basic</h4>
                             </div>
                             <div class="card-body"> 
-                                <form id="editProductForm" action="/admin/editProduct?id=<%=data._id%>" method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
+                                <form id="editProductForm" action="/admin/editProduct?id=<%=data._id%>" method="post" enctype="multipart/form-data">
                                     <div class="mb-4">
                                         <label for="product_name" class="form-label">Product title</label>
                                         <input type="text" placeholder="Type here" name="name" value="<%=data.name%>" class="form-control" id="product-name"  />
@@ -174,7 +190,7 @@
                                     <input type="text" placeholder="type here" value="<%=data.description%>" id="product-description" class="form-control" name="description"/>
                                     <div class="error-message text-center" style="color: red;" id="descriptionError"></div>
                                 </div>
-                                <div> <button type="submit" onsubmit="validateQuantityField()" class="btn btn-md rounded font-sm hover-up">Save changes</button></div>
+                                <div> <button type="submit" class="btn btn-md rounded font-sm hover-up">Save changes</button></div>
                                 
                         </div>
                     </div>  
@@ -246,56 +262,58 @@
         
 
         <script>
-            function validateForm() {
-                // Reset error messages
-                resetErrorMessages();
-    
-                // Validate each field
-                if (!validateField('product-name', 'productTitleError', 'Product title is required.')) return false;
-                if (!validateQuantityField('product-quantity', 'quantityError', 'Quantity must be a positive value.')) return false;
-                if (!validateField('product-category', '', 'Category is required.')) return false;
-                if (!validateField('product-price', 'priceError', 'Price is required.')) return false;
-                if (!validateField('product-description', 'descriptionError', 'Description is required.')) return false;
-    
-                // Add more validation if needed for other fields
-    
-                return true; // If all validation passes, allow the form to submit
-            }
-    
-            function validateField(fieldName, errorDiv, errorMessage) {
-                var field = document.getElementById(fieldName).value.trim();
-     
-                if (field === "") {
-                    document.getElementById(errorDiv).innerHTML =  errorMessage;
-                    return false;
+            document.getElementById('editProductForm').addEventListener('submit', (e) => {
+                const productName = document.getElementById('product-name').value.trim();
+                const productQuantity = document.getElementById('product-quantity').value.trim();
+                const productPrice = document.getElementById('product-price').value.trim();
+                const productDescription = document.getElementById('product-description').value.trim();
+        
+                const productTitleError = document.getElementById('productTitleError');
+                const quantityError = document.getElementById('quantityError');
+                const priceError = document.getElementById('priceError');
+                const descriptionError = document.getElementById('descriptionError');
 
+
+        
+                let isValid = true;
+        
+                // Validate product title
+                if (productName === '') {
+                    productTitleError.textContent = 'Product title is required.';
+                    isValid = false;
+                } else {
+                    productTitleError.textContent = '';
                 }
-             
-                return true;
-            }
+        
+                
+        
+                // Validate price
+                if (productPrice === '') {
+                    priceError.textContent = 'Price is required.';
+                    isValid = false;
+                } else if (isNaN(productPrice) || Number(productPrice) <= 0) {
+                    priceError.textContent = 'Please enter a valid price.';
+                    isValid = false;
+                } else {
+                    priceError.textContent = '';
+                }
+        
+                // Validate description
+                if (productDescription === '') {
+                    descriptionError.textContent = 'Description is required.';
+                    isValid = false;
+                } else {
+                    descriptionError.textContent = '';
+                }
+              
+        
+                if (!isValid) {
+                    e.preventDefault(); 
+                }
+            });
 
-            function validateQuantityField(fieldName, errorDiv, errorMessage) {
-            var quantity = parseInt(document.getElementById(fieldName).value.trim(), 10);
-
-            if (isNaN(quantity) || quantity < 0) {
-                document.getElementById(errorDiv).innerHTML = errorMessage;
-                return false;
-            }
-            return true
-        }
     
-            function resetErrorMessages() {
-                // Reset all error messages to empty
-                document.getElementById('productTitleError').innerHTML = "";
-                document.getElementById('quantityError').innerHTML = "";
-                document.getElementById('priceError').innerHTML = "";
-                document.getElementById('descriptionError').innerHTML = "";
-    
-                // Reset category error message if needed
-                // document.getElementById('categoryError').innerHTML = "";
-            }
         </script>
-   
 
         <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
         <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>

@@ -28,7 +28,23 @@ const userSchema = new mongoose.Schema({
     is_blocked:{
         type:Boolean,
         default:false
+    },
+    wallet:{
+        type:Number,
+        default:0
+    },
+    walletHistory:[{
+      date:{
+        type:Date,
+
+      },
+      amount:{
+        type:Number,
+      }
+    }],
+    referralCode :{
+        type:String
     }
-})
+})  
 
 module.exports = mongoose.model('User',userSchema)
