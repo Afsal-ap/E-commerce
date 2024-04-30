@@ -24,7 +24,6 @@
         required : true
     }
   })
-  
  
    categoryModel = mongoose.model('categoryModel',categorySchema)
 
