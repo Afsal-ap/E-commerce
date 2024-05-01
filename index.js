@@ -23,9 +23,9 @@ mongoose.connect('mongodb://127.0.0.1:27017/ecommerce', { useNewUrlParser: true,
 
    // error middleware 
 
-   app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
-});
+//    app.use((req, res, next) => {
+//     res.status(404).sendFile(path.join(__dirname, 'views', '404.ejs'));
+// });
 
 app.use(nocache())
          
@@ -39,14 +39,16 @@ app.use(express.json())
 
 app.set('view engine','ejs')
 app.set('views','./views/user')
-
+app.set('views', path.join(__dirname, 'views/user'));
         
 app.use(express.static('public'))
 
 app.use('/',userRoute)
 
 app.use('/admin',adminRoute)
-
+app.use((req, res, next) => {
+  res.status(404).render('404');
+});
 
 app.listen(7999,(req,res)=>{   
     console.log("server is listening http://localhost:7999");    
