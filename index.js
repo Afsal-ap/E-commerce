@@ -42,7 +42,7 @@ app.use('/',userRoute)
 app.use('/admin',adminRoute)
 
 
-app.listen(7999,(req,res)=>{   
+app.listen(3000,(req,res)=>{   
     console.log("server is listening http://localhost:7999");    
 
 })
