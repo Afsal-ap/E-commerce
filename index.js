@@ -50,14 +50,8 @@ app.use((req, res, next) => {
   res.status(404).render('404');
 });
 
-<<<<<<< HEAD
-
-app.listen(3000,(req,res)=>{   
-    console.log("server is listening http://localhost:7999");    
-=======
 app.listen(3000,(req,res)=>{   
     console.log("server is listening http://localhost:3000");    
->>>>>>> 132e6ffd981727fba5ae4307115f1b39f9570b10
 
 })
 
