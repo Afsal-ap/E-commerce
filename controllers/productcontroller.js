@@ -21,7 +21,9 @@ const loadProduct = async (req,res)=>{
           const product = products[i];
         if(product.offer){   
             const discountedPrice = product.price * ( 1 - product.offer.discountAmount / 100)
-            product.discountedPrice = parseInt(discountedPrice)
+            const dis =  product.price - discountedPrice
+           product.discountedPrice = parseInt(discountedPrice)
+            console.log(dis,"discouteyy");
             await product.save()  
         }
       }
