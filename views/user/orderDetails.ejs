@@ -56,7 +56,7 @@
                                 </div>
                                 
                                 <% }) %>
-                                <% if(orderedItems.paymentStatus !== 'pending'){ %> 
+                                <% if(orderedItems.paymentStatus !== 'pending'|| orderedItems.orderStatus !== 'delivered'){ %> 
                                 <button class="btn-cancel btn-primary" onclick="confirmCancel('<%=orderedItems._id%>')">Cancel Order</button>
                            <% } %>
                               </div>
