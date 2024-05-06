@@ -100,15 +100,19 @@
                                                     <a href="/singleShop?id=<%=product._id%>"><!-- End .product-title -->
                                                         <div class="product-price">
                                                             <% if(!product.offer) { %> 
-                                                                <%= product.price %>
+                                                                ₹<%= product.price %>
                                                                 <%}else { %>
                                                                    <del>₹ <%=product.price %></del>
                                                                     <br> 
                                                                     <br>
                                                                     ₹ <%= product.discountedPrice %>
                                                                     <p class="badge rounded-pill alert-warning"><%= product.offer.discountAmount%>% offer</p>
-
-                                                                   <% }%>  
+                                                               
+                                                                   <% }%> 
+                                                                   
+                                                                   <% if(product.quantity === 0){ %> 
+                                                                    <br> 
+                                                                     <p style="color: red;">out of stock</p> <% } %> 
                                                            
                                                                    
                                                                   

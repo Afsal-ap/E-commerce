@@ -74,9 +74,9 @@ const checkoutPost = async (req, res) => {
                     if(cartData.couponDiscount){
                       
                         const totalQuantity = cartData.product.reduce((total, product)=> total + product.quantity,0);
-                        console.log(totalQuantity, 'quan');
+                     
                         const discountPerItem = cartData.couponDiscount.discountAmount / totalQuantity;
-                        console.log(discountPerItem, "per");
+                        
                         item.totalPrice = price - discountPerItem
                     } else{
                         item.totalPrice = price;
@@ -87,8 +87,7 @@ const checkoutPost = async (req, res) => {
                  const totals = orderItems.reduce((acc,item) => acc + item.totalPrice,0)
                  var totalPrice = totals
 
-                console.log(totalPrice,"total");
-
+                
                 if (selectedAddress === undefined || selectedAddress === null){
                     const { name, address, landmark, state, city, pincode, phone, email} = req.body;
                     const newAddress = {name, address, landmark, state, city, pincode, phone, email};

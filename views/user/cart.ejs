@@ -63,16 +63,19 @@
                                     <% } %>
                                            <td class="quantity-col" >
                                            <div class="cart-product-quantity d-flex" >
-                                           
+                                            <% if(cartProduct.productId.quantity !== 0){ %> 
                                                 <input type="button" onclick="quantity('<%=cartProduct.productId._id%>',-1)" value="-" />
                                                 <input type="text" name="quantity" value="<%= cartProduct.quantity %>" maxlength="2" max="10" size="1" id="number" />
                                                 <input type="button" onclick="quantity('<%=cartProduct.productId._id%>',1)" value="+" />
-                                               
+                                               <% }else{%> 
+                                                <p style="color: red;">out of stock</p>
+                                                <% } %>
                                         </div><!-- End .cart-product-quantity -->
                                     </td><!-- End .cart-product-quantity -->
                                     </td>       
                                                
                                     <td class="total-col">
+                                        
                                         <% if (!cartProduct.productId.offer) { %>
                                             <%= cartProduct.productId.price * cartProduct.quantity %>
                                         <% } else { %>
@@ -121,8 +124,9 @@
                                     
                                 </tbody>
                             </table><!-- End .table table-summary -->
-
+                           
                             <a href="/checkout" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
+                          
                         </div><!-- End .summary -->
 
                     </aside><!-- End .col-lg-3 -->

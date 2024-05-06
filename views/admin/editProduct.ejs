@@ -284,14 +284,25 @@
                 } else {
                     productTitleError.textContent = '';
                 }
-        
+             
+             // validate quantity 
+
+             if (productQuantity === '') {
+                quantityError.textContent = 'quantity is required.';
+                    isValid = false;
+                } else if (isNaN(productQuantity) || Number(productQuantity) < 0) {
+                    quantityError.textContent = 'Please enter a valid quantity.';
+                    isValid = false;
+                } else {
+                    quantityError.textContent = '';
+                }
                 
         
                 // Validate price
                 if (productPrice === '') {
                     priceError.textContent = 'Price is required.';
                     isValid = false;
-                } else if (isNaN(productPrice) || Number(productPrice) <= 0) {
+                } else if (isNaN(productPrice) || Number(productPrice) <=0) {
                     priceError.textContent = 'Please enter a valid price.';
                     isValid = false;
                 } else {
