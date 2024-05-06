@@ -463,19 +463,25 @@ const loadProfile = async (req, res) => {
     try {
         const user = await User.findById(req.session.user_id)
         const userAddress = await addressModel.findOne({ user: req.session.user_id })
-        const orderList = await orderModel.find({ user: req.session.user_id })
+        const orders = await orderModel.find({ user: req.session.user_id })
         
         
         if (user) {
             const page = parseInt(req.query.page) || 1;
-            const pageSize = 2; // Number of wallet history items per page
+            const pageSize = 2; 
         
             const totalWalletHistory = user.walletHistory.length;
             const totalPages = Math.ceil(totalWalletHistory / pageSize);
         
             const walletHistory = user.walletHistory.slice((page - 1) * pageSize, page * pageSize);
-        
-            res.render('user/profile', { user, userAddress, orderList, totalPages , currentPage : page , walletHistory})
+                  // order pagination 
+            const orderPage = parseInt(req.query.orderPage) || 1;
+            const orderPageSize = 6
+            const totalOrderHistory = orders.length;
+            const totalOrderPage = Math.ceil(totalOrderHistory / orderPageSize);
+            const orderList = orders.slice((orderPage - 1) *  orderPageSize , orderPage * orderPageSize )
+            res.render('user/profile', { user, userAddress, orderList, totalPages , currentPage : page , walletHistory,
+               orderCurrentPage : orderPage, totalOrderPage  })
             
         } else {
             res.status(404).send('User not found');

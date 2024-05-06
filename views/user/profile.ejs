@@ -120,7 +120,9 @@
                   
                           <tr>
                               <% orderList.reverse().forEach(function(item,index) { %>
-                              <td  class="border p-2"><%= index+1 %></td>
+                                <% const orderPerPage = 6; %>        
+                                <% const startIndex = (orderCurrentPage - 1) *orderPerPage  + 1; %>
+                              <td  class="border p-2"><%=  startIndex + index %></td>
                               <td  class="border p-2"><%= new Date(item.orederDate).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }) %></td>
                               <td  class="border p-2"><%= item.subtotal%></td>
                               <td  class="border p-2"><%= item.payment %>
@@ -140,7 +142,20 @@
                       <% }) %>
                   </tbody>
               </table>
-              
+                               
+<div class="pagination-area mt-15 mb-50">
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-start">
+      <% for (let orderPage = 1; orderPage <=  totalOrderPage ; orderPage++) { %>
+        <% if (orderPage === orderCurrentPage) { %>
+          <li class="page-item active"><a class="page-link" href="#"><%= orderPage %></a></li>
+          <% } else { %>
+            <li class="page-item"><a class="page-link" href="/profile?orderPage=<%= orderPage %>"><%= orderPage %></a></li>
+            <% } %>
+            <% } %>
+          </ul>
+        </nav>
+      </div>
               </div><!-- .End .tab-pane -->
 
              <div class="tab-pane fade" id="tab-downloads" role="tabpanel" aria-labelledby="tab-downloads-link">
