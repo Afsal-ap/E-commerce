@@ -21,8 +21,8 @@ dotenv.config()
 const loadHome = async (req, res) => {
     try {
         const user_id = req.session.user_id
-
-        res.render('user/home', { user_id })
+        const shop = await products.find({})
+        res.render('user/home', { user_id,shop })
     } catch (error) {
         console.log(error);
     }
