@@ -57,7 +57,7 @@ const checkoutPost = async (req, res) => {
                
               for( const product of cartData.product){
                 const { productId, quantity, price} = product;
-                       
+                           
                 
               
 

@@ -41,17 +41,24 @@ const dashboard = async (req, res) => {
         
         
         
-        const overallDiscount = await orderModel.aggregate([
+        const overallDiscountResult = await orderModel.aggregate([
             {
-                $match: { orderStatus: { $in: ['placed', 'delivered'] } }
-            },
-            {
-                $group: {
-                    _id: null,
-                    totalDiscount: { $sum: '$discountAmount' }
-                }
-            }
+                $match: { orderStatus:  'delivered' } },
+                {
+                    $unwind: '$products' // Flatten the products array
+                  },
+                  {
+                    $group: {
+                      _id: null, // Group by all documents
+                      total: { $sum: '$products.totalPrice' },
+                      subtotalSum: { $sum: '$subtotal' }  
+                    }
+                  }
         ])
+      
+        const totalPriceSum = overallDiscountResult[0].total;
+        const subtotalSum = overallDiscountResult[0].subtotalSum;
+        const overallDiscount = subtotalSum - totalPriceSum;
         
         let labels;
         let salesArray;
