@@ -17,14 +17,14 @@ const razorpay = new Razorpay({
 const loadCheckout = async (req,res) =>{
     try{
         if(!req.session.orderId){
-            const deliveryCharge = 40
+           
             const wallet = await User.findById(req.session.user_id);
             const cartData = await cartModel.findOne( {user: req.session.user_id}).populate('couponDiscount').populate('product.productId')
             const currentDate = new Date();
             const couponData = await couponModel.find({expiryDate : { $gte: currentDate }, is_blocked:false })
             const address = await addressModel.findOne({ user: req.session.user_id })
             const total = cartData.product.reduce((acc, val) => acc + val.totalPrice, 0);
-            const subtotal = total + deliveryCharge
+            const subtotal = total
             
             console.log(cartData.product,"yes");
             const couponDiscount = cartData.couponDiscount ? cartData.couponDiscount.discountAmount : 0 ;
@@ -68,7 +68,7 @@ const checkoutPost = async (req, res) => {
                         price:price,
                         totalPrice:price,
                         productStatus:status,
-                      
+                        
 
                       };
                     if(cartData.couponDiscount){
