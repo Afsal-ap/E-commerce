@@ -237,58 +237,57 @@
   
   <!-- Modal -->
 
-
   <div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+  aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
       <!--Content-->
       <div class="modal-content text-center">
-        <!--Header-->
-        <div class="modal-header d-flex justify-content-center">
-            <% if(couponData) { %> 
-            <% for(let i = 0; i < couponData.length; i++){ %> 
-            <div class="card" style="width: 18rem;" id="reloadDiv">
-                <div class="card-body">
-                  <h5 class="card-title"><%= couponData[i].name %></h5>
-                  <p class="card-text"> code: <%= couponData[i].couponCode %></p>
-                  <p class="card-text">Discount Amount:₹<%= couponData[i].discountAmount %></p>
-                 
-                  <p class="card-text"> Only applicable if you order above:₹<%= couponData[i].criteriaAmount %></p>
-                 <% if(subtotal > couponData[i].criteriaAmount){ %>
-                  <% console.log('coupon ID:', couponData[i]._id, 'Applied coupon Id',
-                  cartData.couponDiscount ? cartData.couponDiscount._id 
-                  : 'No coupon Applied')%>
-                  <% if(discountAmount && couponData[i]._id.toString()
-                  !==(cartData.couponDiscount ?
-                  cartData.couponDiscount._id.toString(): null)){ %>
-                    <a href="#" class="btn btn-danger apply-coupon-button" data-coupon-id="<%= couponData[i]._id %>">Apply</a>
-                  <% }else if (cartData.couponDiscount &&
-                  couponData[i]._id.toString()===(cartData.couponDiscount._id
-                  ? cartData.couponDiscount._id.toString():null)) { %>
-                    <button type="submit"
-                            onclick="removeCoupon('<%=couponData[i]._id%>')"
-                           class="apply-btn btn btn-danger">
-                       <span> Remove</span>
-                    </button>
-                    <% } %>
-                    <% }  else { %>
-                      <span class="badge not-applicable">Not
-                        Applicable</span>
-                        <% } %>
+          <!--Header-->
+          <div class="modal-header d-flex justify-content-center">
+              <% if(couponData && couponData.length > 0) { %> <!-- Check if couponData exists and has items -->
+                  <% for(let i = 0; i < couponData.length; i++) { %>
+                      <div class="card" style="width: 18rem;" id="reloadDiv">
+                          <div class="card-body">
+                              <h5 class="card-title"><%= couponData[i].name %></h5>
+                              <p class="card-text"> code: <%= couponData[i].couponCode %></p>
+                              <p class="card-text">Discount Amount:₹<%= couponData[i].discountAmount %></p>
+                              <p class="card-text"> Only applicable if you order above:₹<%= couponData[i].criteriaAmount %></p>
+                              <% if(subtotal > couponData[i].criteriaAmount) { %>
+                                  <% console.log('coupon ID:', couponData[i]._id, 'Applied coupon Id',
+                                  cartData.couponDiscount ? cartData.couponDiscount._id 
+                                  : 'No coupon Applied') %>
+                                  <% if(discountAmount && couponData[i]._id.toString()
+                                  !==(cartData.couponDiscount ?
+                                  cartData.couponDiscount._id.toString(): null)) { %>
+                                      <a href="#" class="btn btn-danger apply-coupon-button" data-coupon-id="<%= couponData[i]._id %>">Apply</a>
+                                  <% } else if (cartData.couponDiscount &&
+                                  couponData[i]._id.toString()===(cartData.couponDiscount._id
+                                  ? cartData.couponDiscount._id.toString():null)) { %>
+                                      <button type="submit"
+                                              onclick="removeCoupon('<%=couponData[i]._id%>')"
+                                              class="apply-btn btn btn-danger">
+                                          <span> Remove</span>
+                                      </button>
+                                  <% } %>
+                              <% } else { %>
+                                  <span class="badge not-applicable">Not Applicable</span>
+                              <% } %>
+                          </div>
                       </div>
-                    </div>
-                        <%  } %>
-                        <% }else{  %>
-                          <p>No available coupons</p>
-                          <% } %>
-                        
-                
-        </div>
-   
+                  <% } %>
+              <% } else {  %>
+                  <div class="card" style="width: 18rem;" id="reloadDiv">
+                      <div class="card-body">
+                          <h5 class="card-title">No available coupons</h5>
+                          <p></p>
+                      </div>
+                  </div>
+              <% } %>
+          </div>
       </div>
-      
-    </div>
   </div>
+</div>
+
  
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
