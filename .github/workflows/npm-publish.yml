@@ -53,9 +53,9 @@ jobs:
       # Deploy to EC2
       - name: Deploy to EC2
         env:
-          HOST: 16.171.153.46  # Replace with your actual EC2 IP
-          USER: ubuntu  # Change this if using a different EC2 user
-          REPO_DIR: /home/ubuntu/E-commerce  # Path where your code is hosted on the server
+          HOST: 16.171.153.46
+          USER: ubuntu
+          REPO_DIR: /home/ubuntu/E-commerce
         run: |
           ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
             cd $REPO_DIR
