@@ -23,7 +23,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\"",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "build": "webpack --config webpack.config.js"
   },
   "author": "",
   "license": "ISC"
