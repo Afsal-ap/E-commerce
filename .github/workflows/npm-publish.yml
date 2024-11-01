@@ -36,32 +36,33 @@ jobs:
       # Build application if needed
       # - name: Build application
       #   run: npm run build  # Only if you have a build process
-deploy:
-  runs-on: ubuntu-latest
-  needs: build
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
 
-  steps:
-    # Check out the code again for deployment
-    - name: Checkout code
-      uses: actions/checkout@v2
+    steps:
+      # Check out the code again for deployment
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    # Set up SSH to connect to the EC2 instance
-    - name: Add SSH Key
-      run: |
-        echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H ${{ env.HOST }} >> ~/.ssh/known_hosts
+      # Set up SSH to connect to the EC2 instance
+     - name: Set up SSH
+  uses: webfactory/ssh-agent@v0.5.3
+  with:
+    ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
-    # Deploy to EC2
-    - name: Deploy to EC2
-      env:
-        HOST: your-ec2-public-ip  # Replace with your EC2 instance public IP
-        USER: ec2-user            # Adjust if a different EC2 user is used
-        REPO_DIR: /path/to/your/existing/repo  # Set to your code directory on the server
-      run: |
-        ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
-          cd $REPO_DIR
-          git pull origin main
-          npm install  # Run only if dependencies have changed
-          pm2 restart app  # Adjust 'app' to match your pm2 process name
-        EOF
+
+
+      # Deploy to EC2
+      - name: Deploy to EC2
+        env:
+          HOST: your-ec2-public-ip
+          USER: ec2-user  # Change this if using a different EC2 user
+          REPO_DIR: /path/to/your/existing/repo  # Path where your code is hosted on the server
+        run: |
+          ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
+            cd $REPO_DIR
+            git pull origin main
+            npm install  # Run only if dependencies change
+            pm2 restart app  # Replace 'app' with the name of your pm2 process
+          EOF
