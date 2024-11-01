@@ -47,10 +47,12 @@ jobs:
         uses: actions/checkout@v2
 
       # Set up SSH to connect to the EC2 instance
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+      - name: Add SSH Key
+  run: |
+    echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+    chmod 600 ~/.ssh/id_rsa
+    ssh-keyscan -H $HOST >> ~/.ssh/known_hosts
+
 
       # Deploy to EC2
       - name: Deploy to EC2
