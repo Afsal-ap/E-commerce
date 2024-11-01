@@ -58,8 +58,34 @@ jobs:
           REPO_DIR: ~/E-commerce
         run: |
           ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
+            # Print current directory
+            echo "Current Directory: $(pwd)"
+            
+            # Navigate to the repository directory
             cd $REPO_DIR
+            
+            # Print the directory after changing
+            echo "Changed to Directory: $(pwd)"
+            
+            # List files in the current directory
+            echo "Files in Directory:"
+            ls -la
+            
+            # Check if the directory is a git repository
+            if [ ! -d ".git" ]; then
+              echo "Not a Git repository. Exiting."
+              exit 1
+            fi
+            
+            # Pull the latest changes from the main branch
             git pull origin main
+            
+            # Install dependencies
             npm install
+            
+            # Restart the application
             pm2 restart index
+            
+            # Print the end message
+            echo "Deployment completed."
           EOF
