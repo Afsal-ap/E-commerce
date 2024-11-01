@@ -55,14 +55,14 @@ jobs:
         env:
           HOST: 16.171.153.46
           USER: ubuntu
-          REPO_DIR: ~/E-commerce
+          REPO_DIR: /E-commerce
         run: |
           ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
             # Print current directory
             echo "Current Directory: $(pwd)"
             
             # Navigate to the repository directory
-            cd $REPO_DIR
+            cd E-commerce/
             
             # Print the directory after changing
             echo "Changed to Directory: $(pwd)"
