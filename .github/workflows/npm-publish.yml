@@ -55,7 +55,7 @@ jobs:
         env:
           HOST: 16.171.153.46
           USER: ubuntu
-          REPO_DIR: /home/ubuntu/E-commerce
+          REPO_DIR: ~/E-commerce
         run: |
           ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
             cd $REPO_DIR
