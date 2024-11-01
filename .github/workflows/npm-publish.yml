@@ -34,8 +34,8 @@ jobs:
         run: npm test  # Ensure you have tests defined; otherwise, skip this step
 
       # Build application if needed
-      - name: Build application
-        run: npm run build  # Only if you have a build process
+      # - name: Build application
+      #   run: npm run build  # Only if you have a build process
 
   deploy:
     runs-on: ubuntu-latest
