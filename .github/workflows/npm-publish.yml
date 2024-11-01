@@ -60,6 +60,6 @@ jobs:
           ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
             cd $REPO_DIR
             git pull origin main
-            npm install  # Run only if dependencies change
-            pm2 restart app  # Replace 'app' with the name of your pm2 process
+            npm install
+            pm2 restart index
           EOF
