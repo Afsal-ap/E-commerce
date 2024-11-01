@@ -1,5 +1,3 @@
-# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
-# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
 name: CI/CD Pipeline for Node.js eCommerce
 
 on:
@@ -33,9 +31,9 @@ jobs:
       - name: Run tests
         run: npm test  # Ensure you have tests defined; otherwise, skip this step
 
-      # Build application if needed
-      - name: Build application
-        run: npm run build  # Only if you have a build process
+      # Uncomment if you have a build process
+      # - name: Build application
+      #   run: npm run build
 
   deploy:
     runs-on: ubuntu-latest
@@ -55,13 +53,39 @@ jobs:
       # Deploy to EC2
       - name: Deploy to EC2
         env:
-          HOST: your-ec2-public-ip
-          USER: ec2-user  # Change this if using a different EC2 user
-          REPO_DIR: /path/to/your/existing/repo  # Path where your code is hosted on the server
+          HOST: 16.171.153.46
+          USER: ubuntu
+          REPO_DIR: /E-commerce
         run: |
           ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
-            cd $REPO_DIR
+            # Print current directory
+            echo "Current Directory: $(pwd)"
+            
+            # Navigate to the repository directory
+            cd E-commerce/
+            
+            # Print the directory after changing
+            echo "Changed to Directory: $(pwd)"
+            
+            # List files in the current directory
+            echo "Files in Directory:"
+            ls -la
+            
+            # Check if the directory is a git repository
+            if [ ! -d ".git" ]; then
+              echo "Not a Git repository. Exiting."
+              exit 1
+            fi
+            
+            # Pull the latest changes from the main branch
             git pull origin main
-            npm install  # Run only if dependencies change
-            pm2 restart app  # Replace 'app' with the name of your pm2 process
+            
+            # Install dependencies
+            npm install
+            
+            # Restart the application
+            pm2 restart index
+            
+            # Print the end message
+            echo "Deployment completed."
           EOF
